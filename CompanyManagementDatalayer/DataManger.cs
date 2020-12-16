@@ -166,10 +166,12 @@ namespace CompanyManagementDatalayer
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
 
-            var createTask = (from t in dc.ProjectTaskMaps
-                             join  p in dc.Projects on p.ProjectID equals t.ProjectID into projecttask
-                             from pt in projecttask
-                             select pt).tol
+            ProjectTaskMap projectTask = new ProjectTaskMap();
+            projectTask.ProjectID = projectID;
+            projectTask.TaskID = task.TaskID;
+            dc.ProjectTaskMaps.InsertOnSubmit(projectTask);
+            dc.SubmitChanges();
+            
             
         }
         public void AssignTechnologyToTask(int technologyID, int taskID)
@@ -183,9 +185,10 @@ namespace CompanyManagementDatalayer
         public void UpdateTechnologiesForTask(List<int> technologyIDs, int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var updateTechTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select new { task.TechID = technologyIDs }).ToList();
-           
+            var updateTechTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select task.TechID).ToList();
 
+            updateTechTask = technologyIDs;
+            dc.SubmitChanges();
         }
         public void DeleteEmployeeFromSystem(int employeeID)
         {
