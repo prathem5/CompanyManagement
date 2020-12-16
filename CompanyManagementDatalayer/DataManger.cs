@@ -68,16 +68,15 @@ namespace CompanyManagementDatalayer
                                   select emp.Task).ToList();
             return EmpTask;
         }
-        public List<TechTaskMap> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
+        //*************************************************************************************************************
+        public List<(TechnologyMaster Technology,Task Task,Employee Employee)> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
                 {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            List<TechTaskMap> empTask = (from emp in dc.EmployeeTaskMaps 
-                                             join tech in dc.TechTaskMaps on emp.TaskID equals tech.TaskID 
-                                             where emp.EmployeeID == employeeID && tech.TechID ==technologyID
-                                             select new { technology = tech.TechnologyMaster, task = tech.Task }).ToList();
-                                
-
-            
+            var allTech = (from et in dc.EmployeeTaskMaps 
+                                             join tt in dc.TechTaskMaps on et.TaskID equals tt.TaskID 
+                                             where et.EmployeeID == employeeID && tt.TechID ==technologyID
+                                             select new {Technology = tt.TechnologyMaster, Task =tt.Task ,Employee = et.Employee}).ToList();
+            return allTech.Select(r => (r.Technology, r.Task, r.Employee)).ToList() ;
         }
         public List<Project> GetAllTechnologyProjects(int technologyID)
         {
@@ -85,6 +84,7 @@ namespace CompanyManagementDatalayer
             List<Project> techProject = (from tech in dc.TechProjectMaps
                                    where tech.TechID == technologyID
                                    select tech.Project ).ToList();
+           
              return techProject ;
         }
         public List<Task> GetAllActiveTasksForProject(int projectID)
@@ -96,12 +96,17 @@ namespace CompanyManagementDatalayer
                                    
                 return taskProjectQuery;
         }
-        public List<TechnologyMaster> GetAllTechnologiesForEmployee(int employeeID)
+        //**********************************************************************************************************
+        public List<(TechnologyMaster Technology,Employee Employee)> GetAllTechnologiesForEmployee(int employeeID)
         {
-            CompanyDBDataContext dc = new CompanyDBDataContext(); 
-                var empTech =from emp in dc.EmployeeProjectMaps 
-            
-          
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var allTech = (from et in dc.EmployeeTaskMaps
+                           join tt in dc.TechTaskMaps on et.TaskID equals tt.TaskID
+                           where et.EmployeeID == employeeID 
+                           select new { Technology = tt.TechnologyMaster, Task = tt.Task, Employee = et.Employee }).ToList();
+            return allTech.Select(r => (r.Technology,  r.Employee)).ToList();
+
+
         }
 
         public int GetProjectCountForEmployee(int employeeID)
@@ -160,8 +165,11 @@ namespace CompanyManagementDatalayer
        public void  CreateTaskInProject(Task task, int projectID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var createTask = from taskk in dc.ProjectTaskMaps where taskk.ProjectID == projectID select taskk;
-           task.pr
+
+            var createTask = (from t in dc.ProjectTaskMaps
+                             join  p in dc.Projects on p.ProjectID equals t.ProjectID into projecttask
+                             from pt in projecttask
+                             select pt).tol
             
         }
         public void AssignTechnologyToTask(int technologyID, int taskID)
@@ -171,6 +179,7 @@ namespace CompanyManagementDatalayer
             var assignTech = (from task in dc.TechTaskMaps where task.TaskID == taskID select task).First();
             assignTech.TechID = technologyID;
         }
+        //***************************************************************************************************
         public void UpdateTechnologiesForTask(List<int> technologyIDs, int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
