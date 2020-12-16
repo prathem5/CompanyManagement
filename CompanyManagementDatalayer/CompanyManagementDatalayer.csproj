@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleClass.cs" />
     <Compile Include="DataManger.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="QueryResource.Designer.cs">

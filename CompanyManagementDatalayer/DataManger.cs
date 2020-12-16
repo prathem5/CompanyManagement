@@ -10,152 +10,228 @@ namespace CompanyManagementDatalayer
 {
     class DataManger
     {
-        
-        public void getAllProjects()
+
+        public List<Project> getAllProjects()
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<Project> projects = dc.Projects;
-            var projectQuery = from p in projects select p.ProjectName;
-            foreach (string p in projectQuery)
-            {
-                Console.WriteLine(p);
-            }
+            List<Project> getProjectList = (from p in dc.Projects
+                                          select p).ToList();
+            return getProjectList;
         }
-        public void getAllTechologies()
+           
+        public List<TechnologyMaster> getAllTechologies()
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<TechnologyMaster> technologies = dc.TechnologyMasters;
-            var techlist = from t in technologies select t.TechName;
-            foreach (string t in techlist)
-            {
-                Console.WriteLine(t);
-            }
+            List<TechnologyMaster> techlist = (from t in dc.TechnologyMasters
+                                               select t).ToList();
+            return techlist;
         }
         public int GetEmployeeCountForProject(int projectID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<EmployeeProjectMap> employees = dc.EmployeeProjectMaps;
-            var empcountQuery = from emp in employees where emp.ProjectID == projectID select emp.EmployeeID;
-            int count = 0;
-            foreach (int e in empcountQuery)
-            {
-                count++;
-            }
-            return count;
+            List<Project> getEmployeeCount = (from emp in dc.EmployeeProjectMaps
+                                              where emp.ProjectID == projectID 
+                                              select emp.Project).ToList();
+            return getEmployeeCount.Count;
         }
-        public List<string> GetEmployeesForProject(int projectID)
+        public List<Employee> GetEmployeesForProject(int projectID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<EmployeeProjectMap> employees = dc.EmployeeProjectMaps;
-            var empcountQuery = from emp in employees where emp.ProjectID == projectID select emp.Employee.EmployeeName;
-            List<string> EmpName = new List<string>();
-            foreach (string name in empcountQuery)
-            {
-                EmpName.Add(name);
-            }
-            return EmpName;
+            List<Employee> getEmployee = (from emp in dc.EmployeeProjectMaps
+                                          where emp.ProjectID == projectID 
+                                          select emp.Employee).ToList();
+           
+            return getEmployee;
         }
        
-        public List<int> GetAllDelayedProjects()
+        public List<Project> GetAllDelayedProjects()
         {
 
+            CompanyDBDataContext dc = new CompanyDBDataContext();    
+            List<Project> delayedProjects = (from p in dc.Projects
+                                             where p.StatusID == (int)StatusEnum.Delayed 
+                                          select p).ToList();
+
+            return delayedProjects;
+        }
+        public List<Project> GetAllProjectsForEmployee(int employeeID)
+        {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<Project> projects = dc.Projects;
+            List<Project> allProjects = (from emp in dc.EmployeeProjectMaps where emp.EmployeeID == employeeID select emp.Project).ToList();
+            return allProjects;
+        }
+        public List<Task> GetAllTasksForEmployee(int employeeID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            List<Task> EmpTask = (from emp in dc.EmployeeTaskMaps 
+                                  where emp.EmployeeID == employeeID 
+                                  select emp.Task).ToList();
+            return EmpTask;
+        }
+        public List<TechTaskMap> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
+                {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            List<TechTaskMap> empTask = (from emp in dc.EmployeeTaskMaps 
+                                             join tech in dc.TechTaskMaps on emp.TaskID equals tech.TaskID 
+                                             where emp.EmployeeID == employeeID && tech.TechID ==technologyID
+                                             select new { technology = tech.TechnologyMaster, task = tech.Task }).ToList();
+                                
+
             
-
-            var projectQuery = from p in projects where p.StatusID == (int) StatusEnum.Delayed select p.ProjectID;
-            List<int> projectlist = new List<int>();
-            foreach (var project in projectQuery)
-            {
-                projectlist.Add(project);
-            }
-            return projectlist;
         }
-        public List<int> GetAllProjectsForEmployee(int employeeID)
+        public List<Project> GetAllTechnologyProjects(int technologyID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<EmployeeProjectMap> employeeProjects = dc.EmployeeProjectMaps;
-            var employeeProjectQuery = from emp in employeeProjects where emp.EmployeeID == employeeID select emp.ProjectID;
-            List<int> projectList = new List<int>();
-            foreach (int project in employeeProjectQuery)
-            {
-                projectList.Add(project);
-            }
-            return projectList;
-        }
-        public IQueryable<Task> GetAllTasksForEmployee(int employeeID)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<EmployeeTaskMap> employeeTasks = dc.EmployeeTaskMaps;
-            var EmpTaskQuery = from emp in employeeTasks where emp.EmployeeID == employeeID select emp.Task;
-
-            return EmpTaskQuery;
-        }
-        public string GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<Task> techTaskMaps = dc.Tasks;
-            var techTaskQuery = from task in techTaskMaps select task.TaskName;
-
-            return techTaskQuery;
-        }
-        public IQueryable<int> GetAllTechnologyProjects(int technologyID)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<TechProjectMap> techProjects = dc.TechProjectMaps;
-            var techProjectQuery = from tech in techProjects
+            List<Project> techProject = (from tech in dc.TechProjectMaps
                                    where tech.TechID == technologyID
-                                   select tech.TechProjectMapID ;
-             return techProjectQuery ;
+                                   select tech.Project ).ToList();
+             return techProject ;
         }
-        public IQueryable<Task> GetAllActiveTasksForProject(int projectID)
+        public List<Task> GetAllActiveTasksForProject(int projectID)
         {
             CompanyDBDataContext dc = new  CompanyDBDataContext();
-            Table<ProjectTaskMap> taskProjects = dc.ProjectTaskMaps;
-            var taskProjectQuery = from project in taskProjects where project.ProjectID == projectID && project.Task.StatusID==(int)StatusEnum.Active select project.Task;
+            List<Task> taskProjectQuery = (from project in dc.ProjectTaskMaps 
+                                           where project.ProjectID == projectID && project.Task.StatusID==(int)StatusEnum.Active 
+                                           select project.Task).ToList();
                                    
                 return taskProjectQuery;
         }
-        public IQueryable<TechProjectMap> GetAllTechnologiesForEmployee(int employeeID)
+        public List<TechnologyMaster> GetAllTechnologiesForEmployee(int employeeID)
         {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table < EmployeeProjectMap > employeeProjects = dc.EmployeeProjectMaps;
-            var techEmployeeQuery = from emp in employeeProjects where emp.EmployeeID == employeeID select emp.Project.TechProjectMaps;
-            return techEmployeeQuery;
+            CompanyDBDataContext dc = new CompanyDBDataContext(); 
+                var empTech =from emp in dc.EmployeeProjectMaps 
+            
+          
         }
 
         public int GetProjectCountForEmployee(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table < EmployeeProjectMap > employeeProjects= dc.EmployeeProjectMaps;
-            var projectCountQuery = from emp in employeeProjects where emp.EmployeeID == employeeID select emp.ProjectID;
-            int count = 0;
-            foreach (int i in projectCountQuery)
-            {
-                count++;
-            }
-            return count;
+            List<Project> projectCountQuery = (from emp in dc.EmployeeProjectMaps 
+                                               where emp.EmployeeID == employeeID 
+                                               select emp.Project).ToList();
+            
+            return projectCountQuery.Count;
         }
-        public IQueryable<Project> GetAllActiveProjectsManagedByEmployee(int employeeID)
+        public List<Project> GetAllActiveProjectsManagedByEmployee(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<EmployeeProjectMap> employeeProjects = dc.EmployeeProjectMaps;
-            var activeProjectsQuery = from emp in employeeProjects where emp.EmployeeID == employeeID && emp.Project.StatusID == (int)StatusEnum.Active select emp.Project;
+            List<Project> activeProjectsQuery = (from emp in dc.EmployeeProjectMaps
+                                      where emp.EmployeeID == employeeID && emp.Project.StatusID == (int)StatusEnum.Active
+                                      select emp.Project).ToList();
             return activeProjectsQuery;
         }
-        public IQueryable<Task> GetAllDelayedTasksForEmployee(int employeeID)
+        public List<Task> GetAllDelayedTasksForEmployee(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Table<EmployeeTaskMap> employeeTasks = dc.EmployeeTaskMaps;
-            var delayedTaskQuery = from emp in employeeTasks where emp.EmployeeID == employeeID && emp.Task.StatusID == (int)StatusEnum.Delayed select emp.Task;
+            List<Task> delayedTaskQuery = (from emp in dc.EmployeeTaskMaps 
+                                   where emp.EmployeeID == employeeID && emp.Task.StatusID == (int)StatusEnum.Delayed 
+                                   select emp.Task).ToList();
             return delayedTaskQuery;
           }
      public void AddProject(Project project)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             dc.Projects.InsertOnSubmit(project);
+            dc.SubmitChanges(); 
+        }
+
+        public void AddTechnology(TechnologyMaster technology)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            dc.TechnologyMasters.InsertOnSubmit(technology);
             dc.SubmitChanges();
         }
+       public void  AddEmployee(Employee employee)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            dc.Employees.InsertOnSubmit(employee);
+            dc.SubmitChanges();
+        }
+       public void AssignEmployeeToProject(int employeeID, int projectID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var project = (from emp in dc.EmployeeProjectMaps 
+                           where emp.EmployeeID == employeeID 
+                           select emp).First();
+            project.ProjectID = projectID;
+            dc.SubmitChanges();
+        }
+       public void  CreateTaskInProject(Task task, int projectID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var createTask = from taskk in dc.ProjectTaskMaps where taskk.ProjectID == projectID select taskk;
+           task.pr
+            
+        }
+        public void AssignTechnologyToTask(int technologyID, int taskID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            
+            var assignTech = (from task in dc.TechTaskMaps where task.TaskID == taskID select task).First();
+            assignTech.TechID = technologyID;
+        }
+        public void UpdateTechnologiesForTask(List<int> technologyIDs, int taskID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var updateTechTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select new { task.TechID = technologyIDs }).ToList();
+           
+
+        }
+        public void DeleteEmployeeFromSystem(int employeeID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var deleteEmployee = (from emp in dc.Employees 
+                                  where emp.EmployeeID == employeeID 
+                                  select emp).ToList();
+            foreach(Employee emp in deleteEmployee)
+            {
+                dc.Employees.DeleteOnSubmit(emp);
+            }
+            dc.SubmitChanges();
+        }
+        public void DeleteTechnology(int technology)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var deleteTechnology = (from tech in dc.TechnologyMasters
+                                    where tech.TechID == technology
+                                    select tech).ToList();
+            foreach(TechnologyMaster tech in deleteTechnology)
+            {
+                dc.TechnologyMasters.DeleteOnSubmit(tech);
+            }
+            dc.SubmitChanges();
+
+        }
+        public void DeleteTask(int taskID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var deleteTask = (from task in dc.Tasks
+                              where task.TaskID == taskID 
+                              select task).ToList();
+            foreach(Task task in deleteTask)
+            {
+                dc.Tasks.DeleteOnSubmit(task);
+
+            }
+            dc.SubmitChanges();
+        }
+        public void DeleteProject(int projectID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var deleteProject = (from project in dc.Projects 
+                                 where project.ProjectID == projectID 
+                                 select project).ToList();   
+            foreach(Project project in deleteProject)
+            {
+                dc.Projects.DeleteOnSubmit(project);
+
+            }
+            dc.SubmitChanges();
+        }
+
+
+
 
 
     }
