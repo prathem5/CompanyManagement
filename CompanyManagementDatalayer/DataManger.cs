@@ -16,9 +16,9 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> getAllProjectList = (from project in dc.Projects
+                List<Project> projectList = (from project in dc.Projects
                                                    select project).ToList();
-                return getAllProjectList;
+                return projectList;
             }
             catch(Exception ex)
             {
@@ -44,10 +44,10 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> employeeCount = (from emp in dc.EmployeeProjectMaps
+                List<Project> projectList = (from emp in dc.EmployeeProjectMaps
                                                   where emp.ProjectID == projectID
                                                   select emp.Project).ToList();
-                return employeeCount.Count;
+                return projectList.Count;
             }catch(Exception ex)
             {
                 throw ex;
@@ -88,8 +88,8 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> allProjects = (from emp in dc.EmployeeProjectMaps where emp.EmployeeID == employeeID select emp.Project).ToList();
-                return allProjects;
+                List<Project> projectsList = (from emp in dc.EmployeeProjectMaps where emp.EmployeeID == employeeID select emp.Project).ToList();
+                return projectsList;
             }
             catch(Exception ex)
             {
@@ -101,10 +101,10 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Task> employeeTask = (from emp in dc.EmployeeTaskMaps
+                List<Task> taskList = (from emp in dc.EmployeeTaskMaps
                                       where emp.EmployeeID == employeeID
                                       select emp.Task).ToList();
-                return employeeTask;
+                return taskList;
             }catch(Exception ex)
             {
                 throw ex; 
@@ -116,11 +116,11 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var techEmployee = (from employeeTask in dc.EmployeeTaskMaps
+                var techTaskList = (from employeeTask in dc.EmployeeTaskMaps
                                join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
                                where employeeTask.EmployeeID == employeeID && techTask.TechID == technologyID
                                select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
-                return techEmployee.Select(tuple => (tuple.Technology, tuple.Task, tuple.Employee)).ToList();
+                return techTaskList.Select(tuple => (tuple.Technology, tuple.Task, tuple.Employee)).ToList();
             }catch(Exception ex)
             {
                 throw ex;
@@ -131,10 +131,10 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> techProject = (from tech in dc.TechProjectMaps
+                List<Project> projectList = (from tech in dc.TechProjectMaps
                                              where tech.TechID == technologyID
                                              select tech.Project).ToList();
-                return techProject;
+                return projectList;
             }catch(Exception ex)
             {
                 throw ex;
@@ -145,11 +145,11 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Task> taskProject = (from project in dc.ProjectTaskMaps
+                List<Task> taskList = (from project in dc.ProjectTaskMaps
                                                where project.ProjectID == projectID && project.Task.StatusID == (int)StatusEnum.Active
                                                select project.Task).ToList();
 
-                return taskProject;
+                return taskList;
             }catch(Exception ex)
             {
                 throw ex;
@@ -162,11 +162,11 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var techEmployee = (from employeeTask in dc.EmployeeTaskMaps
+                var techList= (from employeeTask in dc.EmployeeTaskMaps
                                join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
                                where employeeTask.EmployeeID == employeeID
                                select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
-                return techEmployee.Select(tuple => (tuple.Technology, tuple.Employee)).ToList();
+                return techList.Select(tuple => (tuple.Technology, tuple.Employee)).ToList();
             }catch(Exception ex) { 
                 throw ex;
             }
@@ -178,11 +178,11 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> projectCount = (from emp in dc.EmployeeProjectMaps
+                List<Project> projectList = (from emp in dc.EmployeeProjectMaps
                                                    where emp.EmployeeID == employeeID
                                                    select emp.Project).ToList();
 
-                return projectCount.Count;
+                return projectList.Count;
             }catch(Exception ex)
             {
                 throw ex;
@@ -192,8 +192,8 @@ namespace CompanyManagementDatalayer
         {try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> activeProject = (from emp in dc.EmployeeProjectMaps where emp.EmployeeID == employeeID && emp.Project.StatusID == (int)StatusEnum.Active select emp.Project).ToList();
-                return activeProject;
+                List<Project> activeProjectList = (from emp in dc.EmployeeProjectMaps where emp.EmployeeID == employeeID && emp.Project.StatusID == (int)StatusEnum.Active select emp.Project).ToList();
+                return activeProjectList ;
             }
             catch (Exception ex) { throw ex; }
         }
@@ -201,8 +201,8 @@ namespace CompanyManagementDatalayer
         {try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Task> delayedTask = (from emp in dc.EmployeeTaskMaps where emp.EmployeeID == employeeID && emp.Task.StatusID == (int)StatusEnum.Delayed select emp.Task).ToList();
-                return delayedTask;
+                List<Task> delayedTaskList = (from emp in dc.EmployeeTaskMaps where emp.EmployeeID == employeeID && emp.Task.StatusID == (int)StatusEnum.Delayed select emp.Task).ToList();
+                return delayedTaskList;
             }
             catch (Exception ex) { throw ex; }
         }
@@ -230,6 +230,7 @@ namespace CompanyManagementDatalayer
                 ProjectTaskMap projectTask = new ProjectTaskMap();
                 projectTask.ProjectID = projectID;
                 projectTask.TaskID = task.TaskID; 
+
                 dc.ProjectTaskMaps.InsertOnSubmit(projectTask);
                 dc.SubmitChanges();
             }catch(Exception ex) { throw ex; }
@@ -242,10 +243,10 @@ namespace CompanyManagementDatalayer
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
 
-                var assignTech = (from task in dc.TechTaskMaps
-                                  where task.TaskID == taskID
-                                  select task).First();
-                assignTech.TechID = technologyID;
+                var techTaskList = (from techtask in dc.TechTaskMaps
+                                  where techtask.TaskID == taskID
+                                  select techtask).First();
+                techTaskList.TechID = technologyID;
             }catch(Exception ex) { throw ex; }
         }
         //***************************************************************************************************
@@ -254,11 +255,11 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var updateTechTask = (from techTask in dc.TechTaskMaps
+                var updateTechTaskID = (from techTask in dc.TechTaskMaps
                                       where techTask.TaskID == taskID
                                       select techTask.TechID).ToList();
 
-                updateTechTask = technologyIDs;
+                updateTechTaskID = technologyIDs;
                 dc.SubmitChanges();
             }catch (Exception ex)
             {
@@ -270,10 +271,10 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var deleteEmployee = (from emp in dc.Employees
+                List<Employee> employeeList = (from emp in dc.Employees
                                       where emp.EmployeeID == employeeID
                                       select emp).ToList();
-                foreach (Employee emp in deleteEmployee)
+                foreach (Employee emp in employeeList)
                 {
                     dc.Employees.DeleteOnSubmit(emp);
                 }
@@ -286,7 +287,7 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var deleteTechnology = (from tech in dc.TechnologyMasters
+                List<TechnologyMaster> deleteTechnology = (from tech in dc.TechnologyMasters
                                         where tech.TechID == technology
                                         select tech).ToList();
                 foreach (TechnologyMaster tech in deleteTechnology)
@@ -305,7 +306,7 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var deleteTask = (from task in dc.Tasks
+                List<Task> deleteTask = (from task in dc.Tasks
                                   where task.TaskID == taskID
                                   select task).ToList();
                 foreach (Task task in deleteTask)
@@ -324,7 +325,7 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var deleteProject = (from project in dc.Projects
+                List<Project> deleteProject = (from project in dc.Projects
                                      where project.ProjectID == projectID
                                      select project).ToList();
                 foreach (Project project in deleteProject)
