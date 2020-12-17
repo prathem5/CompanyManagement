@@ -1,0 +1,9 @@
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\bin\Debug\CompanyManagementDatalayer.dll.config
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\bin\Debug\CompanyManagementDatalayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\bin\Debug\CompanyManagementDatalayer.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.csprojAssemblyReference.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.QueryResource.resources
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.csproj.GenerateResource.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.csproj.CoreCompileInputs.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.pdb

@@ -10,21 +10,21 @@ namespace CompanyManagementDatalayer
 {
     class DataManger
     {
-
+        ValidationHelper validate = new ValidationHelper();
         public List<Project> getAllProjects()
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            List<Project> getProjectList = (from p in dc.Projects
-                                          select p).ToList();
-            return getProjectList;
+            List<Project> getAllProjectList = (from project in dc.Projects
+                                          select project).ToList();
+            return getAllProjectList;
         }
            
         public List<TechnologyMaster> getAllTechologies()
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            List<TechnologyMaster> techlist = (from t in dc.TechnologyMasters
-                                               select t).ToList();
-            return techlist;
+            List<TechnologyMaster> getAllTechlist = (from tech in dc.TechnologyMasters
+                                               select tech).ToList();
+            return getAllTechlist;
         }
         public int GetEmployeeCountForProject(int projectID)
         {
@@ -48,9 +48,9 @@ namespace CompanyManagementDatalayer
         {
 
             CompanyDBDataContext dc = new CompanyDBDataContext();    
-            List<Project> delayedProjects = (from p in dc.Projects
-                                             where p.StatusID == (int)StatusEnum.Delayed 
-                                          select p).ToList();
+            List<Project> delayedProjects = (from project in dc.Projects
+                                             where project.StatusID == (int)StatusEnum.Delayed 
+                                          select project).ToList();
 
             return delayedProjects;
         }
@@ -72,11 +72,11 @@ namespace CompanyManagementDatalayer
         public List<(TechnologyMaster Technology,Task Task,Employee Employee)> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
                 {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var allTech = (from et in dc.EmployeeTaskMaps 
-                                             join tt in dc.TechTaskMaps on et.TaskID equals tt.TaskID 
-                                             where et.EmployeeID == employeeID && tt.TechID ==technologyID
-                                             select new {Technology = tt.TechnologyMaster, Task =tt.Task ,Employee = et.Employee}).ToList();
-            return allTech.Select(r => (r.Technology, r.Task, r.Employee)).ToList() ;
+            var allTech = (from employeeTask in dc.EmployeeTaskMaps 
+                                             join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID 
+                                             where employeeTask.EmployeeID == employeeID && techTask.TechID ==technologyID
+                                             select new {Technology = techTask.TechnologyMaster, Task =techTask.Task ,Employee = employeeTask.Employee}).ToList();
+            return allTech.Select(tuple => (tuple.Technology, tuple.Task, tuple.Employee)).ToList() ;
         }
         public List<Project> GetAllTechnologyProjects(int technologyID)
         {
@@ -100,10 +100,10 @@ namespace CompanyManagementDatalayer
         public List<(TechnologyMaster Technology,Employee Employee)> GetAllTechnologiesForEmployee(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var allTech = (from et in dc.EmployeeTaskMaps
-                           join tt in dc.TechTaskMaps on et.TaskID equals tt.TaskID
-                           where et.EmployeeID == employeeID 
-                           select new { Technology = tt.TechnologyMaster, Task = tt.Task, Employee = et.Employee }).ToList();
+            var allTech = (from employeeTask in dc.EmployeeTaskMaps
+                           join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
+                           where employeeTask.EmployeeID == employeeID 
+                           select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
             return allTech.Select(r => (r.Technology,  r.Employee)).ToList();
 
 
@@ -134,32 +134,14 @@ namespace CompanyManagementDatalayer
                                    select emp.Task).ToList();
             return delayedTaskQuery;
           }
-     public void AddProject(Project project)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            dc.Projects.InsertOnSubmit(project);
-            dc.SubmitChanges(); 
-        }
-
-        public void AddTechnology(TechnologyMaster technology)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            dc.TechnologyMasters.InsertOnSubmit(technology);
-            dc.SubmitChanges();
-        }
-       public void  AddEmployee(Employee employee)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            dc.Employees.InsertOnSubmit(employee);
-            dc.SubmitChanges();
-        }
+     
        public void AssignEmployeeToProject(int employeeID, int projectID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             var project = (from emp in dc.EmployeeProjectMaps 
-                           where emp.EmployeeID == employeeID 
+                           where emp.ProjectID == projectID 
                            select emp).First();
-            project.ProjectID = projectID;
+            project.EmployeeID =employeeID;
             dc.SubmitChanges();
         }
        public void  CreateTaskInProject(Task task, int projectID)
@@ -178,14 +160,18 @@ namespace CompanyManagementDatalayer
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             
-            var assignTech = (from task in dc.TechTaskMaps where task.TaskID == taskID select task).First();
+            var assignTech = (from task in dc.TechTaskMaps
+                              where task.TaskID == taskID 
+                              select task).First();
             assignTech.TechID = technologyID;
         }
         //***************************************************************************************************
         public void UpdateTechnologiesForTask(List<int> technologyIDs, int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var updateTechTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select task.TechID).ToList();
+            var updateTechTask = (from techTask in dc.TechTaskMaps 
+                                  where techTask.TaskID == taskID
+                                  select techTask.TechID).ToList();
 
             updateTechTask = technologyIDs;
             dc.SubmitChanges();
@@ -241,8 +227,183 @@ namespace CompanyManagementDatalayer
             }
             dc.SubmitChanges();
         }
+        public void AddProject(Project project, int id, string projectName, int budget, int statusId, int clientId)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            project.ProjectID = id;
+            project.ProjectName = projectName;
+            project.ProjectBudget = budget;
+            project.StatusID = statusId;
+            project.ClientID = clientId;
+            string checkColumn = validate.checkCompulsoryProjectColumn(project);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+
+            }
+            dc.Projects.InsertOnSubmit(project);
+            dc.SubmitChanges();
+        }
+
+        public void AddTechnology(TechnologyMaster technology, int id, string techName, int cost)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            technology.TechID = id;
+            technology.TechName = techName;
+            technology.TechCost = cost;
+            string checkColumn = validate.checkCompulsoryTechnologyColumn(technology);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+
+            }
+            dc.TechnologyMasters.InsertOnSubmit(technology);
+            dc.SubmitChanges();
+        }
+
+            public void AddDepartment(DepartmentMaster department, int id, string deptName, int companyid)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            department.DepartmentID = id;
+            department.DepartmentName = deptName;
+            department.CompanyID = companyid;
+            string checkColumn =validate.checkCompulsoryDepartmentColumn(department);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+
+            }
+            dc.DepartmentMasters.InsertOnSubmit(department);
+            dc.SubmitChanges();
+        }
+        public void AddClient(Client client, int id, string clientName, string Address, int companyID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+
+            client.ClientID = id;
+            client.ClientName = clientName;
+            client.ClientAddress = Address;
+            client.CompanyID = companyID;
+            string checkColumn = validate.checkCompulsoryClientColumn(client);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+
+            }
+            dc.Clients.InsertOnSubmit(client);
+            dc.SubmitChanges();
+        }
+        public void AddCompany(Company company, int id, string companyName, string Address)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            company.CompanyID = id;
+            company.CompanyName = companyName;
+            company.CompanyAddress = Address;
+            string checkColumn = validate.checkCompulsoryCompanyColumn(company);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+
+            }
+            dc.Companies.InsertOnSubmit(company);
+            dc.SubmitChanges();
+        }
+        public void AddEmployee(Employee employee, int id, string empName, string Address, TimeSpan dateOfjoin, TimeSpan dateOfleave, int salary, int deptid)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            employee.EmployeeID = id;
+            employee.EmployeeName = empName;
+            employee.EmployeeAddress = Address;
+            employee.EmployeeJoined = dateOfjoin;
+            employee.EmployeeLeaved = dateOfleave;
+            employee.EmployeeSalary = salary;
+            employee.DepartmentID = deptid;
 
 
+            string checkColumn = validate.checkCompulsoryEmployeeColumn(employee);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+
+            }
+            dc.Employees.InsertOnSubmit(employee);
+            dc.SubmitChanges();
+        }
+        public void AddTask(Task task, int id, string taskName, int statusID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            task.TaskID = id;
+            task.TaskName = taskName;
+            task.StatusID = statusID;
+            string checkColumn = validate.checkCompulsoryTaskColumn(task);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+            }
+            dc.Tasks.InsertOnSubmit(task);
+            dc.SubmitChanges();
+        }
+
+        public void AddStatus(StatusMaster status, int id, string statusName)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            status.StatusID = id;
+            status.StatusName = name;
+            string checkColumn = validate.checkCompulsoryStatusColumn(status);
+            if (checkColumn != QueryResource.AllFieldsPresent)
+            {
+                throw new Exception(checkColumn);
+            }
+
+            dc.StatusMasters.InsertOnSubmit(status);
+            dc.SubmitChanges();
+        }
+        public void AddEmployeeProjectMap(EmployeeProjectMap employeeProject, int id, int employeeID, int projectID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            employeeProject.EmployeeProjectMapID = id;
+            employeeProject.EmployeeID = employeeID;
+            employeeProject.ProjectID = projectID;
+            dc.EmployeeProjectMaps.InsertOnSubmit(employeeProject);
+            dc.SubmitChanges();
+        }
+        public void AddEmployeeTaskMap(EmployeeTaskMap employeeTask, int ID, int employeeId, int taskId)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            employeeTask.EmployeeTaskMapID = ID;
+            employeeTask.EmployeeID = employeeId;
+            employeeTask.TaskID = taskId;
+            dc.EmployeeTaskMaps.InsertOnSubmit(employeeTask);
+            dc.SubmitChanges();
+        }
+        public void AddProjectTaskMap(ProjectTaskMap projectTask, int id, int projectId, int taskId)
+
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            projectTask.ProjectTaskMapID = id;
+            projectTask.ProjectID = projectId;
+            projectTask.TaskID = taskId;
+            dc.ProjectTaskMaps.InsertOnSubmit(projectTask);
+            dc.SubmitChanges();
+
+        }
+        public void AddTechProjectMap(TechProjectMap techProject, int Id, int techID, int projectId)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            techProject.TechProjectMapID = Id;
+            techProject.TechID = techID;
+            techProject.ProjectID = projectId;
+            dc.TechProjectMaps.InsertOnSubmit(techProject);
+            dc.SubmitChanges();
+
+        }
+        public void AddTechTaskMap(TechTaskMap techTask, int Id, int techId, int taskId)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            techTask.TechTaskMapID = Id;
+            techTask.TechID = techId;
+            techTask.TaskID = taskId;
+        }
 
 
 

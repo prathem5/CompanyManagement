@@ -120,26 +120,59 @@
   <data name="AllFieldsPresent" xml:space="preserve">
     <value>All fields are present</value>
   </data>
+  <data name="ClientIdMissing" xml:space="preserve">
+    <value>Client Id is Missing</value>
+  </data>
   <data name="ClientNameMissing" xml:space="preserve">
     <value>Client Name is Missing</value>
+  </data>
+  <data name="CompanyIdMissing" xml:space="preserve">
+    <value>Company Id is Missing</value>
   </data>
   <data name="CompanyNameMissing" xml:space="preserve">
     <value>Company Name is Missing</value>
   </data>
+  <data name="DepartmenIDtMissing" xml:space="preserve">
+    <value>Department ID is Missing</value>
+  </data>
   <data name="DepartmentNameMissing" xml:space="preserve">
     <value>Department Name is Missing</value>
+  </data>
+  <data name="EmployeeIdMissing" xml:space="preserve">
+    <value>Employee Id is Missing</value>
   </data>
   <data name="EmployeeNameMissing" xml:space="preserve">
     <value>Employee Name is Missing</value>
   </data>
+  <data name="EmployeeSalaryMissing" xml:space="preserve">
+    <value>Employee Salary is Missing</value>
+  </data>
+  <data name="EmpTaskIDMissing" xml:space="preserve">
+    <value />
+  </data>
+  <data name="JoinDateMissing" xml:space="preserve">
+    <value>Joinning  Date is  Missing</value>
+  </data>
+  <data name="ProjectIdMissing" xml:space="preserve">
+    <value>Project Id is Missing</value>
+  </data>
   <data name="ProjectNameMissing" xml:space="preserve">
     <value>Project Name is Missing</value>
+  </data>
+  <data name="StatusIdMissing" xml:space="preserve">
+    <value>Status Id is Missing</value>
   </data>
   <data name="StatusNameMissing" xml:space="preserve">
     <value>Status Name is Missing</value>
   </data>
+  <data name="TaskIdMissing" xml:space="preserve">
+    <value>Task Id is Missing</value>
+  </data>
   <data name="TaskNameMissing" xml:space="preserve">
     <value>Task Name is Missing</value>
+  </data>
+  <data name="TechIdMissing" xml:space="preserve">
+    <value>Tech Id is Missing</value>
   </data>
   <data name="TechNameMissing" xml:space="preserve">
     <value>Technology Name is Missing</value>
