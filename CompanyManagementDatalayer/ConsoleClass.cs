@@ -8,5 +8,10 @@ namespace CompanyManagementDatalayer
 {
     class ConsoleClass
     {
+        public static void Main()
+        {
+            DataManger dataManger = new DataManger();
+            dataManger.
+        }
     }
 }
