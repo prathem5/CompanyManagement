@@ -10,8 +10,7 @@ namespace CompanyManagementDatalayer
     {
         public static void Main()
         {
-            DataManger dataManger = new DataManger();
-            dataManger.
+                
         }
     }
 }

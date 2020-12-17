@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementDatalayer
 {
-    public class ValidationHelper
+    public  class ValidationHelper
     {
-        public string checkCompulsoryClientColumn(Client client)
+        public static string checkCompulsoryClientColumn(Client client)
         {
 
 
@@ -31,7 +31,7 @@ namespace CompanyManagementDatalayer
             }
         }
 
-        public string checkCompulsoryCompanyColumn(Company company)
+        public static string checkCompulsoryCompanyColumn(Company company)
         {
 
             if (string.IsNullOrEmpty(company.CompanyName))
@@ -48,7 +48,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public string checkCompulsoryProjectColumn(Project project)
+        public static string checkCompulsoryProjectColumn(Project project)
         {
 
             if (string.IsNullOrEmpty(project.ProjectName))
@@ -74,7 +74,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public string checkCompulsoryTechnologyColumn(TechnologyMaster technology)
+        public static string checkCompulsoryTechnologyColumn(TechnologyMaster technology)
         {
             if (string.IsNullOrEmpty(technology.TechName))
             {
@@ -90,7 +90,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public string checkCompulsoryDepartmentColumn(DepartmentMaster department)
+        public static string checkCompulsoryDepartmentColumn(DepartmentMaster department)
         {
             if (string.IsNullOrEmpty(department.DepartmentName))
             {
@@ -110,7 +110,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public string checkCompulsoryEmployeeColumn(Employee employee)
+        public static string checkCompulsoryEmployeeColumn(Employee employee)
         {
 
             if (string.IsNullOrEmpty(employee.EmployeeName))
@@ -135,7 +135,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public string checkCompulsoryTaskColumn(Task task)
+        public static string checkCompulsoryTaskColumn(Task task)
         {
             if (string.IsNullOrEmpty(task.TaskName))
             {
@@ -155,7 +155,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public string checkCompulsoryStatusColumn(StatusMaster status)
+        public static string checkCompulsoryStatusColumn(StatusMaster status)
         {
             if (string.IsNullOrEmpty(status.StatusName))
             {
