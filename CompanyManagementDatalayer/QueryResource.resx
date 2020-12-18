@@ -144,11 +144,14 @@
   <data name="EmployeeNameMissing" xml:space="preserve">
     <value>Employee Name is Missing</value>
   </data>
+  <data name="EmployeeProjectMapIDMissing" xml:space="preserve">
+    <value>EmployeeProject ID is Missing</value>
+  </data>
   <data name="EmployeeSalaryMissing" xml:space="preserve">
     <value>Employee Salary is Missing</value>
   </data>
   <data name="EmpTaskIDMissing" xml:space="preserve">
-    <value />
+    <value>EmployeeTask ID is Missing</value>
   </data>
   <data name="JoinDateMissing" xml:space="preserve">
     <value>Joinning  Date is  Missing</value>
@@ -158,6 +161,9 @@
   </data>
   <data name="ProjectNameMissing" xml:space="preserve">
     <value>Project Name is Missing</value>
+  </data>
+  <data name="ProjectTaskIDMissing" xml:space="preserve">
+    <value>ProjectTask ID is Missing</value>
   </data>
   <data name="StatusIdMissing" xml:space="preserve">
     <value>Status Id is Missing</value>
@@ -176,5 +182,11 @@
   </data>
   <data name="TechNameMissing" xml:space="preserve">
     <value>Technology Name is Missing</value>
+  </data>
+  <data name="TechProjectIDMissing" xml:space="preserve">
+    <value>TechProject ID is  Missing</value>
+  </data>
+  <data name="TechTaskMapIDMissing" xml:space="preserve">
+    <value>TechTask ID is Missing</value>
   </data>
 </root>

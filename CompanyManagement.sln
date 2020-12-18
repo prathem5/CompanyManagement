@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManagementDatalayer", "CompanyManagementDatalayer\CompanyManagementDatalayer.csproj", "{BBF27B29-E55F-4F90-9C8B-AF657B172A8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManagementBusinessLayer", "CompanyManagementBusinessLayer\CompanyManagementBusinessLayer.csproj", "{2EF6A16A-C267-4118-9A0F-76A49DC14390}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BBF27B29-E55F-4F90-9C8B-AF657B172A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBF27B29-E55F-4F90-9C8B-AF657B172A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBF27B29-E55F-4F90-9C8B-AF657B172A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF6A16A-C267-4118-9A0F-76A49DC14390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF6A16A-C267-4118-9A0F-76A49DC14390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF6A16A-C267-4118-9A0F-76A49DC14390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF6A16A-C267-4118-9A0F-76A49DC14390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

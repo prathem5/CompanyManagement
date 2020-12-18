@@ -142,6 +142,15 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EmployeeProject ID is Missing.
+        /// </summary>
+        internal static string EmployeeProjectMapIDMissing {
+            get {
+                return ResourceManager.GetString("EmployeeProjectMapIDMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Salary is Missing.
         /// </summary>
         internal static string EmployeeSalaryMissing {
@@ -151,7 +160,7 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to EmployeeTask ID is Missing.
         /// </summary>
         internal static string EmpTaskIDMissing {
             get {
@@ -183,6 +192,15 @@ namespace CompanyManagementDatalayer {
         internal static string ProjectNameMissing {
             get {
                 return ResourceManager.GetString("ProjectNameMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ProjectTask ID is Missing.
+        /// </summary>
+        internal static string ProjectTaskIDMissing {
+            get {
+                return ResourceManager.GetString("ProjectTaskIDMissing", resourceCulture);
             }
         }
         
@@ -237,6 +255,24 @@ namespace CompanyManagementDatalayer {
         internal static string TechNameMissing {
             get {
                 return ResourceManager.GetString("TechNameMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TechProject ID is  Missing.
+        /// </summary>
+        internal static string TechProjectIDMissing {
+            get {
+                return ResourceManager.GetString("TechProjectIDMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TechTask ID is Missing.
+        /// </summary>
+        internal static string TechTaskMapIDMissing {
+            get {
+                return ResourceManager.GetString("TechTaskMapIDMissing", resourceCulture);
             }
         }
     }
