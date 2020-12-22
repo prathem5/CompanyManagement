@@ -8,6 +8,7 @@ namespace CompanyManagementDatalayer
 {
     class ConsoleClass
     {
+        
         public static void Main()
         {
                 

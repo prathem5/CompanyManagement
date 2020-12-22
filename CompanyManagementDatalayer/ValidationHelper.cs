@@ -172,7 +172,7 @@ namespace CompanyManagementDatalayer
             }
         }
 
-        public static string checkCompulsoryEmployeeProjectColumn(EmployeeProjectMap employeeProject)
+        public static string checkCompulsoryEmployeeProjectColumn(EmployeeProject employeeProject)
         {
             if (employeeProject.EmployeeProjectMapID==0)
             {
@@ -185,6 +185,10 @@ namespace CompanyManagementDatalayer
             else if (employeeProject.EmployeeID == 0)
             {
                 return QueryResource.EmployeeIdMissing;
+            }
+            else if (employeeProject.RoleID == 0)
+            {
+                return QueryResource.RoleIDMissing;
             }
             else
             {

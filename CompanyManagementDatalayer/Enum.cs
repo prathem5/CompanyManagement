@@ -13,6 +13,11 @@ namespace CompanyManagementDatalayer
         Completed = 3,
         Delayed = 4
     }
+    public enum RoleEnum
+    {
+       ProjectManager=1,
+        Worker=2
+    }
     class Enum
     {
       
