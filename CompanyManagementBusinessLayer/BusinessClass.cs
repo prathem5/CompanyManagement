@@ -36,7 +36,7 @@ namespace CompanyManagementBusinessLayer
             {
                 DataManger dataManger = new DataManger();
                 int count = dataManger.getAllTechnologyForTask(taskID);
-                if (count <= 4)
+                if (count < 4)
                 {
                     TechTaskMap tt = new TechTaskMap();
                     dataManger.AddTechTaskMap(techTask, mapID, techID, taskID);
