@@ -119,11 +119,11 @@ namespace CompanyManagementBusinessLayer
             try
             {
                 DataManger dataManger = new DataManger();
-                if (dataManger.isManager(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 3)
+                if (ValidationHelper. isManager(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 3)
                 {
                     dataManger.AddEmployeeProjectMap(project, mapID, employeeID, projectID, roleID);
                 }
-                else if (dataManger.isWorker(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 2)
+                else if (ValidationHelper.isWorker(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 2)
                 {
                     dataManger.AddEmployeeProjectMap(project, mapID, employeeID, projectID, roleID);
 

@@ -30,7 +30,7 @@
   </Table>
   <Table Name="dbo.Employee" Member="Employees">
     <Type Name="Employee">
-      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeID" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="EmployeeName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="EmpoyeeAddress" Member="EmployeeAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="EmployeeSalary" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />

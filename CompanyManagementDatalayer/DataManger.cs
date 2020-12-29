@@ -11,14 +11,15 @@ namespace CompanyManagementDatalayer
     public class DataManger
     {
         ValidationHelper ValidationHelper = new ValidationHelper();
-        public List<Project> getAllProjects()
+        public List<Project> GetAllProjects()
         {
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
                 List<Project> projectList = (from project in dc.Projects
                                              select project).ToList();
-                return projectList;
+                return projectList.ToList();
+                //Is This also Correct ...return dc.projects.tolist();
             }
             catch (Exception ex)
             {
@@ -44,10 +45,10 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> projectList = (from emp in dc.EmployeeProjects
+                var employeeList = (from emp in dc.EmployeeProjects
                                              where emp.ProjectID == projectID
-                                             select emp.Project).ToList();
-                return projectList.Count;
+                                             select emp.EmployeeID).ToList();
+                return employeeList.Count;
             }
             catch (Exception ex)
             {
@@ -59,11 +60,11 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Employee> getEmployee = (from emp in dc.EmployeeProjects
+                List<Employee> employeeList = (from emp in dc.EmployeeProjects
                                               where emp.ProjectID == projectID
                                               select emp.Employee).ToList();
 
-                return getEmployee;
+                return employeeList;
             }
             catch (Exception ex)
             {
@@ -114,21 +115,24 @@ namespace CompanyManagementDatalayer
                 throw ex;
             }
         }
-        public List<(TechnologyMaster Technology, Task Task, Employee Employee)> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
+        public List<TechTaskMap> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
         {
-            try
-            {
-                CompanyDBDataContext dc = new CompanyDBDataContext();
-                var techTaskList = (from employeeTask in dc.EmployeeTaskMaps
-                                    join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
-                                    where employeeTask.EmployeeID == employeeID && techTask.TechID == technologyID
-                                    select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
-                return techTaskList.Select(tuple => (tuple.Technology, tuple.Task, tuple.Employee)).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            /* try
+             {
+                 CompanyDBDataContext dc = new CompanyDBDataContext();
+                 var techTaskList = (from employeeTask in dc.EmployeeTaskMaps
+                                     join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
+                                     where employeeTask.EmployeeID == employeeID && techTask.TechID == technologyID
+                                     select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
+                 return techTaskList.Select(tuple => (tuple.Technology, tuple.Task, tuple.Employee)).ToList();
+             }
+             catch (Exception ex)
+             {
+                 throw ex;
+             }*/
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var result = (from t in dc.TechTaskMaps join e in dc.EmployeeTaskMaps on t.TaskID equals e.TaskID where t.TechID == technologyID && e.EmployeeID == employeeID select t).ToList();
+            return result;
         }
         public List<Project> GetAllTechnologyProjects(int technologyID)
         {
@@ -162,22 +166,24 @@ namespace CompanyManagementDatalayer
             }
 
         }
-        public List<(TechnologyMaster Technology, Employee Employee)> GetAllTechnologiesForEmployee(int employeeID)
+        public List<TechnologyMaster> GetAllTechnologiesForEmployee(int employeeID)
         {
-            try
-            {
-                CompanyDBDataContext dc = new CompanyDBDataContext();
-                var techList = (from employeeTask in dc.EmployeeTaskMaps
-                                join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
-                                where employeeTask.EmployeeID == employeeID
-                                select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
-                return techList.Select(tuple => (tuple.Technology, tuple.Employee)).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
+            /*  try
+              {
+                  CompanyDBDataContext dc = new CompanyDBDataContext();
+                  var techList = (from employeeTask in dc.EmployeeTaskMaps
+                                  join techTask in dc.TechTaskMaps on employeeTask.TaskID equals techTask.TaskID
+                                  where employeeTask.EmployeeID == employeeID
+                                  select new { Technology = techTask.TechnologyMaster, Task = techTask.Task, Employee = employeeTask.Employee }).ToList();
+                  return techList.Select(tuple => (tuple.Technology, tuple.Employee)).ToList();
+              }
+              catch (Exception ex)
+              {
+                  throw ex;
+              }*/
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var techList = (from e in dc.EmployeeProjects join t in dc.TechProjectMaps on e.ProjectID equals t.ProjectID where e.EmployeeID == employeeID select t.TechnologyMaster).ToList();
+            return techList;
 
         }
         public int GetProjectCountForEmployee(int employeeID)
@@ -201,9 +207,16 @@ namespace CompanyManagementDatalayer
         {
             try
             {
-                CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Project> activeProjectList = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID && emp.Project.StatusID == (int)StatusEnum.Active select emp.Project).ToList();
-                return activeProjectList;
+                if (ValidationHelper.isManager(employeeID))
+                {
+                    CompanyDBDataContext dc = new CompanyDBDataContext();
+                    List<Project> activeProjectList = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID && emp.Project.StatusID == (int)StatusEnum.Active select emp.Project).ToList();
+                    return activeProjectList;
+                }
+                else
+                {
+                    throw new Exception(QueryResource.NonManager);
+                }
             }
             catch (Exception ex) { throw ex; }
         }
@@ -253,11 +266,28 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
+                bool taskPresent = ValidationHelper.IfTaskExist(taskID);
+                bool techPresent = ValidationHelper.IftechnologyExist(technologyID);
+                if (taskPresent && techPresent)
+                {
+                    TechTaskMap techTask = new TechTaskMap();
+                    AddTechTaskMap(techTask, 1, technologyID, taskID);
+                }
+               else if(!taskPresent || !techPresent)
+                {
+                    if (taskPresent)
+                    {
+                        throw new Exception(QueryResource.TechnologyNotexist);
+                    }else if (techPresent)
+                    {
+                        throw new Exception(QueryResource.TaskNotExist);
+                    }
+                    else
+                    {
+                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                    }
+                }
 
-                var techTaskList = (from techtask in dc.TechTaskMaps
-                                    where techtask.TaskID == taskID
-                                    select techtask).First();
-                techTaskList.TechID = technologyID;
             }
             catch (Exception ex) { throw ex; }
         }
@@ -265,13 +295,35 @@ namespace CompanyManagementDatalayer
         {
             try
             {
+                var i = 0;
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                var updateTechTaskID = (from techTask in dc.TechTaskMaps
-                                        where techTask.TaskID == taskID
-                                        select techTask.TechID).ToList();
-
-                updateTechTaskID = technologyIDs;
-                dc.SubmitChanges();
+                bool taskPresent = ValidationHelper.IfTaskExist(taskID);
+                bool techPresent = ValidationHelper.IftechnologyExist(technologyIDs[i]);
+                if (taskPresent && techPresent)
+                {
+                    var result = (from t in dc.TechTaskMaps where t.TaskID == taskID select t).ToList();
+                   
+                    foreach (var r in result)
+                    {
+                        r.TechID = technologyIDs[i];
+                        i = i + 1;
+                    }
+                }
+                else if (!taskPresent || !techPresent)
+                {
+                    if (taskPresent)
+                    {
+                        throw new Exception(QueryResource.TechnologyNotexist);
+                    }
+                    else if (techPresent)
+                    {
+                        throw new Exception(QueryResource.TaskNotExist);
+                    }
+                    else
+                    {
+                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -283,13 +335,10 @@ namespace CompanyManagementDatalayer
             try
             {
                 CompanyDBDataContext dc = new CompanyDBDataContext();
-                List<Employee> employeeList = (from emp in dc.Employees
-                                               where emp.EmployeeID == employeeID
-                                               select emp).ToList();
-                foreach (Employee emp in employeeList)
-                {
-                    dc.Employees.DeleteOnSubmit(emp);
-                }
+                
+                
+                    dc.Employees.DeleteOnSubmit(e);
+                
                 dc.SubmitChanges();
             }
             catch (Exception ex) { throw ex; }
@@ -404,7 +453,7 @@ namespace CompanyManagementDatalayer
         public void AddClient(Client client, int id, string clientName, string Address, int companyID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-
+            
             client.ClientID = id;
             client.ClientName = clientName;
             client.ClientAddress = Address;
@@ -565,27 +614,10 @@ namespace CompanyManagementDatalayer
             return projectStatus;
 
         }
+        
 
-        public bool isManager(int employeeID)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
-            if (employee.RoleID == (int)RoleEnum.ProjectManager)
-            {
-                return true;
-            }
-            return false;
-        }
-        public bool isWorker(int employeeID)
-        {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
-            if (employee.RoleID == (int)RoleEnum.Worker)
-            {
-                return true;
-            }
-            return false;
-        }
+
+       
 
     }
 }

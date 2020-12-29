@@ -187,6 +187,15 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee is Not a Manager.
+        /// </summary>
+        public static string NonManager {
+            get {
+                return ResourceManager.GetString("NonManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot delete Active Project.
         /// </summary>
         public static string ProjectActive {
@@ -295,6 +304,24 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry ,Please create the Task First.
+        /// </summary>
+        public static string TaskNotExist {
+            get {
+                return ResourceManager.GetString("TaskNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry , Please create the Task and technology first.
+        /// </summary>
+        public static string TechAndTaskNotExit {
+            get {
+                return ResourceManager.GetString("TechAndTaskNotExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tech Id is Missing.
         /// </summary>
         public static string TechIdMissing {
@@ -318,6 +345,15 @@ namespace CompanyManagementDatalayer {
         public static string TechnologyCannotBeDeleted {
             get {
                 return ResourceManager.GetString("TechnologyCannotBeDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry ,Please Create technology First.
+        /// </summary>
+        public static string TechnologyNotexist {
+            get {
+                return ResourceManager.GetString("TechnologyNotexist", resourceCulture);
             }
         }
         

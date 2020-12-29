@@ -159,11 +159,27 @@ namespace CompanyManagementDatalayer
         {
             if (string.IsNullOrEmpty(status.StatusName))
             {
-                return QueryResource.TaskNameMissing;
+                return QueryResource.StatusNameMissing;
             }
             else if (status.StatusID == 0)
             {
                 return QueryResource.StatusIdMissing;
+            }
+            else
+            {
+                return QueryResource.AllFieldsPresent;
+
+            }
+        }
+        public static string checkCompulsoryRolesColumn(RoleMaster role)
+        {
+            if (string.IsNullOrEmpty(role.RoleName))
+            {
+                return QueryResource.RoleNameMissing;
+            }
+            else if (role.RoleID == 0)
+            {
+                return QueryResource.RoleIDMissing;
             }
             else
             {
@@ -196,7 +212,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryEmployeeTaskColumn(EmployeeTaskMap employeeTask)
+        public static string CheckCompulsoryEmployeeTaskColumn(EmployeeTaskMap employeeTask)
         {
             if (employeeTask.EmployeeTaskMapID == 0)
             {
@@ -216,7 +232,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryProjectTaskColumn(ProjectTaskMap projectTask)
+        public static string CheckCompulsoryProjectTaskColumn(ProjectTaskMap projectTask)
         {
             if (projectTask.ProjectTaskMapID == 0)
             {
@@ -275,6 +291,70 @@ namespace CompanyManagementDatalayer
                 return QueryResource.AllFieldsPresent;
 
             }
+        }
+        public static bool IfProjectExist(int projectID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var projectTest = (from project in dc.Projects select project.ProjectID).ToList();
+            if (projectTest.Contains(projectID))
+            {
+                return true;
+            }
+            return false; 
+
+        }
+        public static bool IfEmployeeExist(int employeeID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var employeeTest = (from emp in dc.Employees select emp.EmployeeID).ToList();
+            if (employeeTest.Contains(employeeID))
+            {
+                return true;
+            }
+            return false;
+
+            
+        }   
+        public static bool IfTaskExist(int taskID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var taskTest = (from task in dc.Tasks select task.TaskID).ToList();
+            if (taskTest.Contains(taskID))
+            {
+                return true;
+
+            }
+            return false;
+        }
+        public static bool IftechnologyExist(int technologyID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var technologyTest = (from tech in dc.TechnologyMasters select tech.TechID).ToList();
+            if (technologyTest.Contains(technologyID))
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool isManager(int employeeID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
+            if (employee.RoleID == (int)RoleEnum.ProjectManager)
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool isWorker(int employeeID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
+            if (employee.RoleID == (int)RoleEnum.Worker)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
