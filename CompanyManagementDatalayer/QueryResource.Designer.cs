@@ -142,6 +142,15 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no such EmployeeID.
+        /// </summary>
+        public static string EmployeeNotFound {
+            get {
+                return ResourceManager.GetString("EmployeeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee is neither projectManager nor Worker.
         /// </summary>
         public static string EmployeeNotInContext {
@@ -219,6 +228,15 @@ namespace CompanyManagementDatalayer {
         public static string ProjectIdMissing {
             get {
                 return ResourceManager.GetString("ProjectIdMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no such project Id .
+        /// </summary>
+        public static string ProjectIDNotFound {
+            get {
+                return ResourceManager.GetString("ProjectIDNotFound", resourceCulture);
             }
         }
         

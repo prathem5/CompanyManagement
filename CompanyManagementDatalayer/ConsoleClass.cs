@@ -11,8 +11,8 @@ namespace CompanyManagementDatalayer
         
         public static void Main()
         {
-            DataManger dm = new DataManger();
-            dm.AddClient()
+          
+            
         }
     }
 }

@@ -144,6 +144,9 @@
   <data name="EmployeeNameMissing" xml:space="preserve">
     <value>Employee Name is Missing</value>
   </data>
+  <data name="EmployeeNotFound" xml:space="preserve">
+    <value>There is no such EmployeeID</value>
+  </data>
   <data name="EmployeeNotInContext" xml:space="preserve">
     <value>Employee is neither projectManager nor Worker</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="ProjectIdMissing" xml:space="preserve">
     <value>Project Id is Missing</value>
+  </data>
+  <data name="ProjectIDNotFound" xml:space="preserve">
+    <value>There is no such project Id </value>
   </data>
   <data name="ProjectNameMissing" xml:space="preserve">
     <value>Project Name is Missing</value>

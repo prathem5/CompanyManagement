@@ -2,7 +2,7 @@
   <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-LT1J0C29\SQLEXPRESS;Initial Catalog=CompanyDB;Integrated Security=True" SettingsObjectName="CompanyManagementDatalayer.Properties.Settings" SettingsPropertyName="CompanyDBConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Client" Member="Clients">
     <Type Name="Client">
-      <Column Name="ClientID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClientID" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ClientName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ClientAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -12,7 +12,7 @@
   </Table>
   <Table Name="dbo.Company" Member="Companies">
     <Type Name="Company">
-      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CompanyID" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CompanyName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="CompanyAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="Company_Client" Member="Clients" ThisKey="CompanyID" OtherKey="CompanyID" Type="Client" />

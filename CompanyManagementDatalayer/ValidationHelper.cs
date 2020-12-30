@@ -8,7 +8,7 @@ namespace CompanyManagementDatalayer
 {
     public  class ValidationHelper
     {
-        public static string checkCompulsoryClientColumn(Client client)
+        public static string CheckCompulsoryClientColumn(Client client)
         {
 
 
@@ -31,7 +31,7 @@ namespace CompanyManagementDatalayer
             }
         }
 
-        public static string checkCompulsoryCompanyColumn(Company company)
+        public static string CheckCompulsoryCompanyColumn(Company company)
         {
 
             if (string.IsNullOrEmpty(company.CompanyName))
@@ -48,7 +48,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryProjectColumn(Project project)
+        public static string CheckCompulsoryProjectColumn(Project project)
         {
 
             if (string.IsNullOrEmpty(project.ProjectName))
@@ -74,7 +74,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryTechnologyColumn(TechnologyMaster technology)
+        public static string CheckCompulsoryTechnologyColumn(TechnologyMaster technology)
         {
             if (string.IsNullOrEmpty(technology.TechName))
             {
@@ -90,7 +90,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryDepartmentColumn(DepartmentMaster department)
+        public static string CheckCompulsoryDepartmentColumn(DepartmentMaster department)
         {
             if (string.IsNullOrEmpty(department.DepartmentName))
             {
@@ -110,7 +110,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryEmployeeColumn(Employee employee)
+        public static string CheckCompulsoryEmployeeColumn(Employee employee)
         {
 
             if (string.IsNullOrEmpty(employee.EmployeeName))
@@ -135,7 +135,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryTaskColumn(Task task)
+        public static string CheckCompulsoryTaskColumn(Task task)
         {
             if (string.IsNullOrEmpty(task.TaskName))
             {
@@ -155,7 +155,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryStatusColumn(StatusMaster status)
+        public static string CheckCompulsoryStatusColumn(StatusMaster status)
         {
             if (string.IsNullOrEmpty(status.StatusName))
             {
@@ -171,7 +171,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryRolesColumn(RoleMaster role)
+        public static string CheckCompulsoryRolesColumn(RoleMaster role)
         {
             if (string.IsNullOrEmpty(role.RoleName))
             {
@@ -188,7 +188,7 @@ namespace CompanyManagementDatalayer
             }
         }
 
-        public static string checkCompulsoryEmployeeProjectColumn(EmployeeProject employeeProject)
+        public static string CheckCompulsoryEmployeeProjectColumn(EmployeeProject employeeProject)
         {
             if (employeeProject.EmployeeProjectMapID==0)
             {
@@ -252,7 +252,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryTechProjectColumn(TechProjectMap techProject)
+        public static string CheckCompulsoryTechProjectColumn(TechProjectMap techProject)
         {
             if (techProject.TechProjectMapID == 0)
             {
@@ -272,7 +272,7 @@ namespace CompanyManagementDatalayer
 
             }
         }
-        public static string checkCompulsoryTechtaskColumn(TechTaskMap techTask)
+        public static string CheckCompulsoryTechtaskColumn(TechTaskMap techTask)
         {
             if (techTask.TechTaskMapID == 0)
             {
@@ -318,25 +318,18 @@ namespace CompanyManagementDatalayer
         public static bool IfTaskExist(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var taskTest = (from task in dc.Tasks select task.TaskID).ToList();
-            if (taskTest.Contains(taskID))
-            {
-                return true;
-
-            }
+            var taskExistance = (from task in dc.Tasks where task.TaskID==taskID select true);
+            
             return false;
         }
-        public static bool IftechnologyExist(int technologyID)
+        public static bool IfTechnologyExist(int technologyID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var technologyTest = (from tech in dc.TechnologyMasters select tech.TechID).ToList();
-            if (technologyTest.Contains(technologyID))
-            {
-                return true;
-            }
+            var technologyExistance= (from tech in dc.TechnologyMasters where tech.TechID == technologyID select true);
+           
             return false;
         }
-        public static bool isManager(int employeeID)
+        public static bool IsManager(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
@@ -346,7 +339,7 @@ namespace CompanyManagementDatalayer
             }
             return false;
         }
-        public static bool isWorker(int employeeID)
+        public static bool IsWorker(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
