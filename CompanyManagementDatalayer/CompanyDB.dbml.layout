@@ -88,7 +88,7 @@
         <classShapeMoniker Id="06f728c6-2e60-4843-88a3-4c084ba96908" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.625 : 6.44314697265625); (6.375 : 6.44314697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.625 : 6.44314697265625); (5.91666666666667 : 6.44314697265625 : JumpStart); (6.08333333333333 : 6.44314697265625 : JumpEnd); (6.375 : 6.44314697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/CompanyDBDataContext/DepartmentMaster/DepartmentMaster_Employee" />
       <nodes>
         <classShapeMoniker Id="06f728c6-2e60-4843-88a3-4c084ba96908" />
@@ -151,7 +151,7 @@
         <classShapeMoniker Id="fe04ee6f-7f7b-46a2-b84f-58f5265fb820" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.375 : 3.15625); (8.54166666666667 : 3.15625 : JumpStart); (8.70833333333333 : 3.15625 : JumpEnd); (12.125 : 3.15625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(8.375 : 3.15625); (12.125 : 3.15625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/CompanyDBDataContext/Project/Project_TechProjectMap" />
       <nodes>
         <classShapeMoniker Id="b6b21179-105c-4e65-bb8f-15c38c15ae13" />

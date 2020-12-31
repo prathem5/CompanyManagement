@@ -1,0 +1,11 @@
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementConsole.exe.config
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementConsole.exe
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementConsole.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementDatalayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementDatalayer.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementDatalayer.dll.config
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.csprojAssemblyReference.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.csproj.CoreCompileInputs.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.csproj.CopyComplete
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.exe
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.pdb

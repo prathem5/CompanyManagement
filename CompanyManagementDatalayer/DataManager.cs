@@ -10,7 +10,7 @@ namespace CompanyManagementDatalayer
 {
     public class DataManager
     {
-       
+        DataManager dm = new DataManager();
         public List<Project> GetAllProjects()
         {
             try
@@ -376,15 +376,21 @@ namespace CompanyManagementDatalayer
                 bool techPresent = ValidationHelper.IfTechnologyExist(technologyID);
                 if (taskPresent && techPresent)
                 {
-                    TechTaskMap techTask = new TechTaskMap();
-                    AddTechTaskMap(techTask);
+                    var techAssign = (from techTask in dc.TechTaskMaps where techTask.TaskID == taskID select techTask).ToList();
+                    foreach (TechTaskMap tech in techAssign)
+                    {
+                        tech.TechID = technologyID;
+                        dc.TechTaskMaps.InsertOnSubmit(tech);
+                    }
+                    dc.SubmitChanges();
                 }
-               else if(!taskPresent || !techPresent)
+                else if (!taskPresent || !techPresent)
                 {
                     if (taskPresent)
                     {
                         throw new Exception(QueryResource.TechnologyNotexist);
-                    }else if (techPresent)
+                    }
+                    else if (techPresent)
                     {
                         throw new Exception(QueryResource.TaskNotExist);
                     }
@@ -401,33 +407,36 @@ namespace CompanyManagementDatalayer
         {
             try
             {
-                var i = 0;
+             
                 CompanyDBDataContext dc = new CompanyDBDataContext();
                 bool taskPresent = ValidationHelper.IfTaskExist(taskID);
-                bool techPresent = ValidationHelper.IfTechnologyExist(technologyIDs[i]);
-                if (taskPresent && techPresent)
+               
+                if (taskPresent)
                 {
-                    var result = (from techTask in dc.TechTaskMaps where techTask.TaskID == taskID select techTask).ToList();
-                   
-                    foreach (var record in result)
+                    List<TechTaskMap> result = (from techtask in dc.TechTaskMaps where techtask.TaskID == taskID select techtask).ToList();
+                   foreach(TechTaskMap tech in result)
                     {
-                        record.TechID = technologyIDs[i];
-                        i =+ 1;
+                        dc.TechTaskMaps.DeleteOnSubmit(tech);
                     }
+                    dc.SubmitChanges();
                 }
-                else if (!taskPresent || !techPresent)
+                else
                 {
-                    if (taskPresent)
+                    throw new Exception(QueryResource.TaskNotExist);
+                }
+               
+                foreach( int techID in technologyIDs)
+                {
+                    bool techPresent = ValidationHelper.IfTechnologyExist(techID);
+                    if (techPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
-                    }
-                    else if (techPresent)
-                    {
-                        throw new Exception(QueryResource.TaskNotExist);
+                        DataManager dm = new DataManager();
+                        dm.AssignTechnologyToTask(techID, taskID);
+
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                        throw new Exception(QueryResource.TechnologyNotexist);
                     }
                 }
             }
@@ -542,215 +551,136 @@ namespace CompanyManagementDatalayer
         public void AddProject(Project project)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Project project1 = new Project
-            {
-                ProjectID = project.ProjectID,
-                ProjectName = project.ProjectName,
-                ProjectBudget = project.ProjectBudget,
-                StatusID = project.StatusID,
-                ClientID = project.ClientID
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryProjectColumn(project1);
+            string checkColumn = ValidationHelper.CheckCompulsoryProjectColumn(project);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
-
             }
-            dc.Projects.InsertOnSubmit(project1);
+            dc.Projects.InsertOnSubmit(project);
             dc.SubmitChanges();
         }
         public void AddTechnology(TechnologyMaster technology)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            TechnologyMaster technologyMaster = new TechnologyMaster
-            {
-                TechID = technology.TechID,
-                TechName = technology.TechName,
-                TechCost = technology.TechCost
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryTechnologyColumn(technologyMaster);
+            
+            string checkColumn = ValidationHelper.CheckCompulsoryTechnologyColumn(technology);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
 
             }
-            dc.TechnologyMasters.InsertOnSubmit(technologyMaster);
+            dc.TechnologyMasters.InsertOnSubmit(technology);
             dc.SubmitChanges();
         }
         public void AddDepartment(DepartmentMaster department)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            DepartmentMaster departmentMaster = new DepartmentMaster
-            {
-                DepartmentID = department.DepartmentID,
-                DepartmentName = department.DepartmentName,
-                CompanyID = department.CompanyID
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryDepartmentColumn(departmentMaster);
+           
+            string checkColumn = ValidationHelper.CheckCompulsoryDepartmentColumn(department);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
 
             }
-            dc.DepartmentMasters.InsertOnSubmit(departmentMaster);
+            dc.DepartmentMasters.InsertOnSubmit(department);
             dc.SubmitChanges();
         }
         public void AddClient(Client client)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Client client1 = new Client
-            {
-                ClientID = client.ClientID,
-                ClientName = client.ClientName,
-                ClientAddress = client.ClientAddress,
-                CompanyID = client.CompanyID
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryClientColumn(client1);
+           
+            string checkColumn = ValidationHelper.CheckCompulsoryClientColumn(client);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
 
             }
-            dc.Clients.InsertOnSubmit(client1);
+            dc.Clients.InsertOnSubmit(client);
             dc.SubmitChanges();
         }
         public void AddCompany(Company company)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Company company1 = new Company
-            {
-                CompanyID = company.CompanyID,
-                CompanyName = company.CompanyName,
-                CompanyAddress = company.CompanyAddress
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryCompanyColumn(company1);
+            string checkColumn = ValidationHelper.CheckCompulsoryCompanyColumn(company);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
 
             }
-            dc.Companies.InsertOnSubmit(company1);
+            dc.Companies.InsertOnSubmit(company);
             dc.SubmitChanges();
         }
         public void AddEmployee(Employee employee)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Employee employee1 = new Employee();
-            employee1.Employee1.EmployeeID = employee.Employee1.EmployeeID;
-            employee1.EmployeeName = employee.EmployeeName;
-            employee1.EmployeeAddress = employee.EmployeeAddress;
-            employee1.EmployeeJoined = employee.EmployeeJoined;
-            employee1.EmployeeLeaved = employee.EmployeeLeaved;
-            employee1.EmployeeSalary = employee.EmployeeSalary;
-            employee1.DepartmentID = employee.DepartmentID;
-            employee1.Employee2.EmployeeID = employee.Employee2.EmployeeID;
-
-
-            string checkColumn = ValidationHelper.CheckCompulsoryEmployeeColumn(employee1);
+            string checkColumn = ValidationHelper.CheckCompulsoryEmployeeColumn(employee);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
 
             }
-            dc.Employees.InsertOnSubmit(employee1);
+            dc.Employees.InsertOnSubmit(employee);
             dc.SubmitChanges();
         }
         public void AddTask(Task task)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            Task task1 = new Task
-            {
-                TaskID = task.TaskID,
-                TaskName = task.TaskName,
-                StatusID = task.StatusID
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryTaskColumn(task1);
+            string checkColumn = ValidationHelper.CheckCompulsoryTaskColumn(task);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
             }
-            dc.Tasks.InsertOnSubmit(task1);
+            dc.Tasks.InsertOnSubmit(task);
             dc.SubmitChanges();
         }
         public void AddStatus(StatusMaster status)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            StatusMaster statusMaster = new StatusMaster
-            {
-                StatusID = status.StatusID,
-                StatusName = status.StatusName
-            };
-            string checkColumn = ValidationHelper.CheckCompulsoryStatusColumn(statusMaster);
+            
+            string checkColumn = ValidationHelper.CheckCompulsoryStatusColumn(status);
             if (checkColumn != QueryResource.AllFieldsPresent)
             {
                 throw new Exception(checkColumn);
             }
 
-            dc.StatusMasters.InsertOnSubmit(statusMaster);
+            dc.StatusMasters.InsertOnSubmit(status);
             dc.SubmitChanges();
         }
         public void AddEmployeeProjectMap(EmployeeProject employeeProject)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            EmployeeProject employeeProject1 = new EmployeeProject
-            {
-                EmployeeProjectMapID = employeeProject.EmployeeProjectMapID,
-                EmployeeID = employeeProject.EmployeeID,
-                ProjectID = employeeProject.ProjectID,
-                RoleID = employeeProject.RoleID
-            };
-            dc.EmployeeProjects.InsertOnSubmit(employeeProject1);
+           
+            dc.EmployeeProjects.InsertOnSubmit(employeeProject);
             dc.SubmitChanges();
         }
         public void AddEmployeeTaskMap(EmployeeTaskMap employeeTask)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            EmployeeTaskMap employeeTask1 = new EmployeeTaskMap
-            {
-                EmployeeTaskMapID = employeeTask.EmployeeTaskMapID,
-                EmployeeID = employeeTask.EmployeeID,
-                TaskID = employeeTask.TaskID
-            };
-            dc.EmployeeTaskMaps.InsertOnSubmit(employeeTask1);
+            
+            dc.EmployeeTaskMaps.InsertOnSubmit(employeeTask);
             dc.SubmitChanges();
         }
         public void AddProjectTaskMap(ProjectTaskMap projectTask)
 
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            ProjectTaskMap projectTask1 = new ProjectTaskMap
-            {
-                ProjectTaskMapID = projectTask.ProjectTaskMapID,
-                ProjectID = projectTask.ProjectID,
-                TaskID = projectTask.TaskID
-            };
-            dc.ProjectTaskMaps.InsertOnSubmit(projectTask1);
+           
+            dc.ProjectTaskMaps.InsertOnSubmit(projectTask);
             dc.SubmitChanges();
 
         }
         public void AddTechProjectMap(TechProjectMap techProject)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            TechProjectMap techProject1 = new TechProjectMap
-            {
-                TechProjectMapID = techProject.TechProjectMapID,
-                TechID = techProject.TechID,
-                ProjectID = techProject.ProjectID
-            };
-            dc.TechProjectMaps.InsertOnSubmit(techProject1);
+           
+            dc.TechProjectMaps.InsertOnSubmit(techProject);
             dc.SubmitChanges();
 
         }
         public void AddTechTaskMap(TechTaskMap techTask)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            TechTaskMap techTask1 = new TechTaskMap
-            {
-                TechTaskMapID = techTask.TechTaskMapID,
-                TechID = techTask.TechID,
-                TaskID = techTask.TaskID
-            };
-            dc.TechTaskMaps.InsertOnSubmit(techTask1);
+            dc.TechTaskMaps.InsertOnSubmit(techTask);
             dc.SubmitChanges();
         }
         
@@ -761,7 +691,7 @@ namespace CompanyManagementDatalayer
                 if (ValidationHelper.IfTechnologyExist(technologyID))
                 {
                     CompanyDBDataContext dc = new CompanyDBDataContext();
-                    var projectList = (from techProject in dc.TechProjectMaps
+                    List<int> projectList = (from techProject in dc.TechProjectMaps
                                                  where techProject.TechID == technologyID
                                                  select techProject.ProjectID).ToList();
                     return projectList.Count;
@@ -782,7 +712,7 @@ namespace CompanyManagementDatalayer
                 if(ValidationHelper.IfProjectExist(projectID)){
                     CompanyDBDataContext dc = new CompanyDBDataContext();
 
-                    var techProject = (from peoject in dc.TechProjectMaps where peoject.ProjectID == projectID select peoject.TechnologyMaster).ToList();
+                    List<TechnologyMaster> techProject = (from peoject in dc.TechProjectMaps where peoject.ProjectID == projectID select peoject.TechnologyMaster).ToList();
                     return techProject;
                 }
                 else
@@ -799,13 +729,13 @@ namespace CompanyManagementDatalayer
         public int GetAllTechnologyForTask(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var techTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select task.TechID).ToList();
+            List<int> techTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select task.TechID).ToList();
             return techTask.Count;
         }
         public int GetStatusOfTask(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var taskStatus = (from task in dc.Tasks where task.TaskID == taskID select task.StatusID).First();
+            int taskStatus = (from task in dc.Tasks where task.TaskID == taskID select task.StatusID).First();
             return taskStatus;
         }
         public int GetStatusOfProject(int projectID)

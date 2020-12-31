@@ -2818,7 +2818,7 @@ namespace CompanyManagementDatalayer
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeProjectMapID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeProjectMapID", DbType="Int NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int EmployeeProjectMapID
 		{
 			get
