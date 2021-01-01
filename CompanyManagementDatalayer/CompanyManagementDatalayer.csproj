@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompanyDB.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompanyDB.dbml</DependentUpon>
+    </Compile>
     <Compile Include="DataManager.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="QueryResource.Designer.cs">
@@ -50,11 +55,6 @@
       <DependentUpon>QueryResource.resx</DependentUpon>
     </Compile>
     <Compile Include="ValidationHelper.cs" />
-    <Compile Include="CompanyDB.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CompanyDB.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

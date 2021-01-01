@@ -59,10 +59,7 @@ namespace CompanyManagementDatalayer
             {
                 return QueryResource.StatusIdMissing;
             }
-            else if (project.ProjectID == 0)
-            {
-                return QueryResource.ProjectIdMissing;
-            }
+           
             else if (project.ClientID == 0)
             {
                 return QueryResource.ClientIdMissing;
@@ -117,17 +114,10 @@ namespace CompanyManagementDatalayer
             {
                 return QueryResource.EmployeeNameMissing;
             }
-            else if (employee.EmployeeID == 0)
-            {
-                return QueryResource.EmployeeIdMissing;
-            }
+            
             else if (employee.EmployeeSalary == 0)
             {
                 return QueryResource.EmployeeSalaryMissing;
-            }
-            else if (employee.EmployeeJoined ==  null)
-            {
-                return QueryResource.JoinDateMissing;
             }
             else
             {
@@ -295,59 +285,47 @@ namespace CompanyManagementDatalayer
         public static bool IfProjectExist(int projectID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var projectTest = (from project in dc.Projects select project.ProjectID).ToList();
-            if (projectTest.Contains(projectID))
-            {
-                return true;
-            }
-            return false; 
+            bool projectExistance =(from project in dc.Projects  where project.ProjectID == projectID select project).Any();
+            
+            return projectExistance; 
 
         }
         public static bool IfEmployeeExist(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var employeeTest = (from emp in dc.Employees select emp.EmployeeID).ToList();
-            if (employeeTest.Contains(employeeID))
-            {
-                return true;
-            }
-            return false;
+            bool employeeExistance = (from emp in dc.Employees where emp.EmployeeID==employeeID select emp).Any();
+            
+            return employeeExistance;
 
             
         }   
         public static bool IfTaskExist(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var taskExistance = (from task in dc.Tasks where task.TaskID==taskID select true);
+            bool taskExistance = (from task in dc.Tasks where task.TaskID==taskID select true).Any();
             
-            return false;
+            return taskExistance;
         }
         public static bool IfTechnologyExist(int technologyID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            var technologyExistance= (from tech in dc.TechnologyMasters where tech.TechID == technologyID select true);
+            bool technologyExistance= (from tech in dc.TechnologyMasters where tech.TechID == technologyID select true).Any();
            
-            return false;
+            return technologyExistance;
         }
         public static bool IsManager(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
-            if (employee.RoleID == (int)RoleEnum.ProjectManager)
-            {
-                return true;
-            }
-            return false;
+            bool manager = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID && emp.RoleID == (int)RoleEnum.ProjectManager select emp).Any();
+           
+            return manager;
         }
         public static bool IsWorker(int employeeID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            EmployeeProject employee = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID select emp).First();
-            if (employee.RoleID == (int)RoleEnum.Worker)
-            {
-                return true;
-            }
-            return false;
+            bool worker = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID && emp.RoleID == (int)RoleEnum.Worker select emp).Any();
+           
+            return worker;
         }
     }
 }
