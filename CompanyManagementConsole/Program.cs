@@ -99,7 +99,11 @@ namespace CompanyManagementConsole
             {
                 Console.WriteLine(empTask.TaskName);
             }
-            Console.ReadKey();
+            //  dm.AssignEmployeeToProject(1, 4);
+            //  dm.DeleteProject(1);
+            //   dm.DeleteTask(1);
+            List<int> techID = ;
+             dm.UpdateTechnologiesForTask()
         }
     }
 }
