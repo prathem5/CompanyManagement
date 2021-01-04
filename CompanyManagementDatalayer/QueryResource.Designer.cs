@@ -196,6 +196,24 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2.
+        /// </summary>
+        public static string MaxProjectUsingTech {
+            get {
+                return ResourceManager.GetString("MaxProjectUsingTech", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4.
+        /// </summary>
+        public static string MaxTechAssignedToProject {
+            get {
+                return ResourceManager.GetString("MaxTechAssignedToProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee is Not a Manager.
         /// </summary>
         public static string NonManager {
@@ -381,6 +399,15 @@ namespace CompanyManagementDatalayer {
         public static string TechnologyTaskExceeds {
             get {
                 return ResourceManager.GetString("TechnologyTaskExceeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Technology is already present in Task .
+        /// </summary>
+        public static string TechPresentInTask {
+            get {
+                return ResourceManager.GetString("TechPresentInTask", resourceCulture);
             }
         }
         

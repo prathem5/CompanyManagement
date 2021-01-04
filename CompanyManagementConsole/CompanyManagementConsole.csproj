@@ -53,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompanyManagementBusinessLayer\CompanyManagementBusinessLayer.csproj">
+      <Project>{2ef6a16a-c267-4118-9a0f-76a49dc14390}</Project>
+      <Name>CompanyManagementBusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompanyManagementDatalayer\CompanyManagementDatalayer.csproj">
       <Project>{bbf27b29-e55f-4f90-9c8b-af657b172a8c}</Project>
       <Name>CompanyManagementDatalayer</Name>

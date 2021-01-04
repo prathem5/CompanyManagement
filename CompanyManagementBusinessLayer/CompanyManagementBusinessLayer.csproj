@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessClass.cs" />
+    <Compile Include="BusinessManager.cs" />
     <Compile Include="Entities\BOClient.cs" />
     <Compile Include="Entities\BOCompany.cs" />
     <Compile Include="Entities\BODepartmentMaster.cs" />

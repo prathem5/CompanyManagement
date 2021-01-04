@@ -1,0 +1,10 @@
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\obj\Debug\CompanyManagementBusinessLayer.csprojAssemblyReference.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\obj\Debug\CompanyManagementBusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\bin\Debug\CompanyManagementBusinessLayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\bin\Debug\CompanyManagementBusinessLayer.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\bin\Debug\CompanyManagementDatalayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\bin\Debug\CompanyManagementDatalayer.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\bin\Debug\CompanyManagementDatalayer.dll.config
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\obj\Debug\CompanyManagementBusinessLayer.csproj.CopyComplete
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\obj\Debug\CompanyManagementBusinessLayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementBusinessLayer\obj\Debug\CompanyManagementBusinessLayer.pdb

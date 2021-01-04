@@ -9,7 +9,7 @@ using CompanyManagementBusinessLayer.Entities;
 
 namespace CompanyManagementBusinessLayer
 {
-    public class BusinessClass
+    public class BusinessManager
     {
         public void DeleteTechnologyOFProject(int technologyID)
         {
@@ -17,7 +17,7 @@ namespace CompanyManagementBusinessLayer
             {
                 DataManager dataManger = new DataManager();
                 int techCount = dataManger.GetAllProjectOfTechnology(technologyID);
-                if (techCount < 2)
+                if (techCount < Convert.ToInt32(QueryResource.MaxProjectUsingTech))
                 {
                     dataManger.DeleteTechnology(technologyID);
                 }
@@ -27,19 +27,26 @@ namespace CompanyManagementBusinessLayer
 
             } catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw ex;
             }
         }
-        public void AddTechTask(TechTaskMap techTask, int mapID, int techID, int taskID)
+        public void BMAddTechTask(TechTaskMap techTask)
         {
             try
             {
                 DataManager dataManger = new DataManager();
-                int count = dataManger.GetAllTechnologyForTask(taskID);
-                if (count < 4)
+                int count = dataManger.GetAllTechnologyForTask(techTask.TaskID);
+                if (count < Convert.ToInt32(QueryResource.MaxTechAssignedToProject))
                 {
-                    TechTaskMap tt = new TechTaskMap();
-                    dataManger.AddTechTaskMap(techTask);
+                    if (!ValidationHelper.IsTechPresentInTask(techTask.TechID, techTask.TaskID))
+                    {
+                        dataManger.AddTechTaskMap(techTask);
+                    }
+                    else
+                    {
+                        throw new Exception(QueryResource.TechPresentInTask);
+                    }
                 }
                 else
                 {
@@ -48,7 +55,9 @@ namespace CompanyManagementBusinessLayer
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw ex;
+               
             }
 
         }
@@ -57,8 +66,8 @@ namespace CompanyManagementBusinessLayer
             try
             {
                 DataManager dataManger = new DataManager();
-                int checkStatus = dataManger.GetStatusOfTask(TaskID);
-                if (checkStatus != (int)StatusEnum.Active)
+                int validateStatus = dataManger.GetStatusOfTask(TaskID);
+                if (validateStatus != (int)StatusEnum.Active)
                 {
                     dataManger.DeleteTask(TaskID);
                 }
@@ -96,7 +105,7 @@ namespace CompanyManagementBusinessLayer
             }
         }
 
-        public void CreateTaskIntProject(int taskID, int projectID)
+      /*  public void CreateTaskIntProject(int taskID, int projectID)
         {
             try
             {
@@ -113,8 +122,8 @@ namespace CompanyManagementBusinessLayer
                 }
             }
             catch (Exception ex) { throw ex; }
-        }
-        public void AssignProjectToEmployee(EmployeeProject project, int mapID,int employeeID, int projectID, int roleID)
+        }*/
+        public void AssignProjectToEmployee(EmployeeProject project)
         {
             try
             {
