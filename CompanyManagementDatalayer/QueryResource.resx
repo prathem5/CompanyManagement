@@ -144,6 +144,9 @@
   <data name="EmployeeNameMissing" xml:space="preserve">
     <value>Employee Name is Missing</value>
   </data>
+  <data name="EmployeeNotFound" xml:space="preserve">
+    <value>There is no such EmployeeID</value>
+  </data>
   <data name="EmployeeNotInContext" xml:space="preserve">
     <value>Employee is neither projectManager nor Worker</value>
   </data>
@@ -159,6 +162,9 @@
   <data name="JoinDateMissing" xml:space="preserve">
     <value>Joinning  Date is  Missing</value>
   </data>
+  <data name="NonManager" xml:space="preserve">
+    <value>Employee is Not a Manager</value>
+  </data>
   <data name="ProjectActive" xml:space="preserve">
     <value>Cannot delete Active Project</value>
   </data>
@@ -167,6 +173,9 @@
   </data>
   <data name="ProjectIdMissing" xml:space="preserve">
     <value>Project Id is Missing</value>
+  </data>
+  <data name="ProjectIDNotFound" xml:space="preserve">
+    <value>There is no such project Id </value>
   </data>
   <data name="ProjectNameMissing" xml:space="preserve">
     <value>Project Name is Missing</value>
@@ -195,6 +204,12 @@
   <data name="TaskNameMissing" xml:space="preserve">
     <value>Task Name is Missing</value>
   </data>
+  <data name="TaskNotExist" xml:space="preserve">
+    <value>Sorry ,Please create the Task First</value>
+  </data>
+  <data name="TechAndTaskNotExit" xml:space="preserve">
+    <value>Sorry , Please create the Task and technology first</value>
+  </data>
   <data name="TechIdMissing" xml:space="preserve">
     <value>Tech Id is Missing</value>
   </data>
@@ -203,6 +218,9 @@
   </data>
   <data name="TechnologyCannotBeDeleted" xml:space="preserve">
     <value>Technology is used by more than 2 Projects and will not be deleted</value>
+  </data>
+  <data name="TechnologyNotexist" xml:space="preserve">
+    <value>Sorry ,Please Create technology First</value>
   </data>
   <data name="TechnologyTaskExceeds" xml:space="preserve">
     <value>Maximum 4 Technologies are been Appiled for this Task Please update or delete</value>

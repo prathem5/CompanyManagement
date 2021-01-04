@@ -1,8 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="CompanyDB" Class="CompanyDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-LT1J0C29\SQLEXPRESS;Initial Catalog=CompanyDB;Integrated Security=True" SettingsObjectName="CompanyManagementDatalayer.Properties.Settings" SettingsPropertyName="CompanyDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Employee" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmployeeName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="EmployeeSalary" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Employee_Employee" Member="Employee2" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" Cardinality="One" />
+      <Association Name="Employee_EmployeeProject" Member="EmployeeProjects" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="EmployeeProject" />
+      <Association Name="Employee_EmployeeTaskMap" Member="EmployeeTaskMaps" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="EmployeeTaskMap" />
+      <Association Name="Employee_Employee" Member="Employee1" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
+      <Association Name="DepartmentMaster_Employee" Member="DepartmentMaster" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="DepartmentMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Client" Member="Clients">
     <Type Name="Client">
-      <Column Name="ClientID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ClientID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ClientName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ClientAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -12,7 +26,7 @@
   </Table>
   <Table Name="dbo.Company" Member="Companies">
     <Type Name="Company">
-      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CompanyName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="CompanyAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="Company_Client" Member="Clients" ThisKey="CompanyID" OtherKey="CompanyID" Type="Client" />
@@ -21,32 +35,27 @@
   </Table>
   <Table Name="dbo.DepartmentMaster" Member="DepartmentMasters">
     <Type Name="DepartmentMaster">
-      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DepartmentName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="DepartmentMaster_Employee" Member="Employees" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Employee" />
       <Association Name="Company_DepartmentMaster" Member="Company" ThisKey="CompanyID" OtherKey="CompanyID" Type="Company" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Employee" Member="Employees">
-    <Type Name="Employee">
-      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="EmployeeName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="EmpoyeeAddress" Member="EmployeeAddress" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="EmployeeSalary" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EmployeeJoined" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
-      <Column Name="EmployeeLeaved" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
-      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Employee_Employee" Member="Employee2" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" Cardinality="One" />
-      <Association Name="Employee_EmployeeTaskMap" Member="EmployeeTaskMaps" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="EmployeeTaskMap" />
-      <Association Name="Employee_EmployeeProject" Member="EmployeeProjects" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="EmployeeProject" />
-      <Association Name="DepartmentMaster_Employee" Member="DepartmentMaster" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="DepartmentMaster" IsForeignKey="true" />
-      <Association Name="Employee_Employee" Member="Employee1" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
+  <Table Name="dbo.EmployeeProject" Member="EmployeeProjects">
+    <Type Name="EmployeeProject">
+      <Column Name="EmployeeProjectMapID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Employee_EmployeeProject" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
+      <Association Name="Project_EmployeeProject" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
+      <Association Name="RoleMaster_EmployeeProject" Member="RoleMaster" ThisKey="RoleID" OtherKey="RoleID" Type="RoleMaster" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeTaskMap" Member="EmployeeTaskMaps">
     <Type Name="EmployeeTaskMap">
-      <Column Name="EmployeeTaskMapID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeTaskMapID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Employee_EmployeeTaskMap" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
@@ -55,30 +64,37 @@
   </Table>
   <Table Name="dbo.Project" Member="Projects">
     <Type Name="Project">
-      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ProjectName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ProjectBudget" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ClientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Project_EmployeeProject" Member="EmployeeProjects" ThisKey="ProjectID" OtherKey="ProjectID" Type="EmployeeProject" />
       <Association Name="Project_ProjectTaskMap" Member="ProjectTaskMaps" ThisKey="ProjectID" OtherKey="ProjectID" Type="ProjectTaskMap" />
       <Association Name="Project_TechProjectMap" Member="TechProjectMaps" ThisKey="ProjectID" OtherKey="ProjectID" Type="TechProjectMap" />
-      <Association Name="Project_EmployeeProject" Member="EmployeeProjects" ThisKey="ProjectID" OtherKey="ProjectID" Type="EmployeeProject" />
       <Association Name="Client_Project" Member="Client" ThisKey="ClientID" OtherKey="ClientID" Type="Client" IsForeignKey="true" />
       <Association Name="StatusMaster_Project" Member="StatusMaster" ThisKey="StatusID" OtherKey="StatusID" Type="StatusMaster" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ProjectTaskMap" Member="ProjectTaskMaps">
     <Type Name="ProjectTaskMap">
-      <Column Name="ProjectTaskMapID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProjectTaskMapID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Project_ProjectTaskMap" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
       <Association Name="Task_ProjectTaskMap" Member="Task" ThisKey="TaskID" OtherKey="TaskID" Type="Task" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.RoleMaster" Member="RoleMasters">
+    <Type Name="RoleMaster">
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="RoleMaster_EmployeeProject" Member="EmployeeProjects" ThisKey="RoleID" OtherKey="RoleID" Type="EmployeeProject" />
+    </Type>
+  </Table>
   <Table Name="dbo.StatusMaster" Member="StatusMasters">
     <Type Name="StatusMaster">
-      <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="StatusName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="StatusMaster_Project" Member="Projects" ThisKey="StatusID" OtherKey="StatusID" Type="Project" />
       <Association Name="StatusMaster_Task" Member="Tasks" ThisKey="StatusID" OtherKey="StatusID" Type="Task" />
@@ -86,7 +102,7 @@
   </Table>
   <Table Name="dbo.Task" Member="Tasks">
     <Type Name="Task">
-      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TaskName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Task_EmployeeTaskMap" Member="EmployeeTaskMaps" ThisKey="TaskID" OtherKey="TaskID" Type="EmployeeTaskMap" />
@@ -97,7 +113,7 @@
   </Table>
   <Table Name="dbo.TechnologyMaster" Member="TechnologyMasters">
     <Type Name="TechnologyMaster">
-      <Column Name="TechID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TechID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TechName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="TechCost" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="TechnologyMaster_TechProjectMap" Member="TechProjectMaps" ThisKey="TechID" OtherKey="TechID" Type="TechProjectMap" />
@@ -106,7 +122,7 @@
   </Table>
   <Table Name="dbo.TechProjectMap" Member="TechProjectMaps">
     <Type Name="TechProjectMap">
-      <Column Name="TechProjectMapID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TechProjectMapID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TechID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Project_TechProjectMap" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
@@ -115,29 +131,11 @@
   </Table>
   <Table Name="dbo.TechTaskMap" Member="TechTaskMaps">
     <Type Name="TechTaskMap">
-      <Column Name="TechTaskMapID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TechTaskMapID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TechID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="TaskID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Task_TechTaskMap" Member="Task" ThisKey="TaskID" OtherKey="TaskID" Type="Task" IsForeignKey="true" />
       <Association Name="TechnologyMaster_TechTaskMap" Member="TechnologyMaster" ThisKey="TechID" OtherKey="TechID" Type="TechnologyMaster" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.EmployeeProject" Member="EmployeeProjects">
-    <Type Name="EmployeeProject">
-      <Column Name="EmployeeProjectMapID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Employee_EmployeeProject" Member="Employee" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employee" IsForeignKey="true" />
-      <Association Name="Project_EmployeeProject" Member="Project" ThisKey="ProjectID" OtherKey="ProjectID" Type="Project" IsForeignKey="true" />
-      <Association Name="RoleMaster_EmployeeProject" Member="RoleMaster" ThisKey="RoleID" OtherKey="RoleID" Type="RoleMaster" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.RoleMaster" Member="RoleMasters">
-    <Type Name="RoleMaster">
-      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="RoleName" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
-      <Association Name="RoleMaster_EmployeeProject" Member="EmployeeProjects" ThisKey="RoleID" OtherKey="RoleID" Type="EmployeeProject" />
     </Type>
   </Table>
 </Database>

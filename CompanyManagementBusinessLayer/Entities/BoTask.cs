@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BoTask
+   public class BoTask
     {
         public int TaskID;
         public string TaskName;
-        public int StatusName;
+        public int StatusID;
 
     }
 }

@@ -15,8 +15,8 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
-                DataManger dataManger = new DataManger();
-                int techCount = dataManger.getAllProjectOfTechnology(technologyID);
+                DataManager dataManger = new DataManager();
+                int techCount = dataManger.GetAllProjectOfTechnology(technologyID);
                 if (techCount < 2)
                 {
                     dataManger.DeleteTechnology(technologyID);
@@ -34,12 +34,12 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
-                DataManger dataManger = new DataManger();
-                int count = dataManger.getAllTechnologyForTask(taskID);
+                DataManager dataManger = new DataManager();
+                int count = dataManger.GetAllTechnologyForTask(taskID);
                 if (count < 4)
                 {
                     TechTaskMap tt = new TechTaskMap();
-                    dataManger.AddTechTaskMap(techTask, mapID, techID, taskID);
+                    dataManger.AddTechTaskMap(techTask);
                 }
                 else
                 {
@@ -56,8 +56,8 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
-                DataManger dataManger = new DataManger();
-                int checkStatus = dataManger.getStatusOfTask(TaskID);
+                DataManager dataManger = new DataManager();
+                int checkStatus = dataManger.GetStatusOfTask(TaskID);
                 if (checkStatus != (int)StatusEnum.Active)
                 {
                     dataManger.DeleteTask(TaskID);
@@ -78,7 +78,7 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
-                DataManger dataManger = new DataManger();
+                DataManager dataManger = new DataManager();
                 int checkStatus = dataManger.GetStatusOfProject(projectID);
                 if (checkStatus != (int)StatusEnum.Active)
                 {
@@ -100,7 +100,7 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
-                DataManger dataManger = new DataManger();
+                DataManager dataManger = new DataManager();
                 int checkStatus = dataManger.GetStatusOfProject(projectID);
                 if (checkStatus != (int)StatusEnum.Completed)
                 {
@@ -118,14 +118,14 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
-                DataManger dataManger = new DataManger();
-                if (dataManger.isManager(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 3)
+                DataManager dataManger = new DataManager();
+                if (ValidationHelper. IsManager(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 3)
                 {
-                    dataManger.AddEmployeeProjectMap(project, mapID, employeeID, projectID, roleID);
+                    dataManger.AddEmployeeProjectMap(project);
                 }
-                else if (dataManger.isWorker(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 2)
+                else if (ValidationHelper.IsWorker(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 2)
                 {
-                    dataManger.AddEmployeeProjectMap(project, mapID, employeeID, projectID, roleID);
+                    dataManger.AddEmployeeProjectMap(project);
 
                 }
                 else
