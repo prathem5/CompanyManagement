@@ -78,7 +78,7 @@ namespace CompanyManagementConsole
             Console.WriteLine("***************************************GetProjectCountForEmployee********************");
             Console.WriteLine(dm.GetProjectCountForEmployee(1));
             Console.WriteLine("***************************************GetAllActiveProjectsManagedByEmployee********************");
-            dm.AssignStatusToProject(1, 2);
+            
             foreach (var project in dm.GetAllActiveProjectsManagedByEmployee(1))
             {
 
@@ -102,8 +102,16 @@ namespace CompanyManagementConsole
             //  dm.AssignEmployeeToProject(1, 4);
             //  dm.DeleteProject(1);
             //   dm.DeleteTask(1);
-            List<int> techID = ;
-             dm.UpdateTechnologiesForTask()
+            //  dm.DeleteEmployee(1);
+            //Query is not affecting the data in database
+            // int[] techArray = { 1, 2, 3, 4, 5 };
+            // List<int> technologies = new List<int>(techArray);
+            // dm.AssignTechnologyToTask(3, 2);
+            dm.UpdateStatusOfProject(4, 3);
+
+
+           
+            Console.ReadKey();
         }
     }
 }
