@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BOProject
+  public  class BOProject
     {
         public int ProjectID;
         public string ProjectName;

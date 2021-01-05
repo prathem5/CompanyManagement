@@ -351,9 +351,9 @@ namespace CompanyManagementDatalayer {
         /// <summary>
         ///   Looks up a localized string similar to Sorry , Please create the Task and technology first.
         /// </summary>
-        public static string TechAndTaskNotExit {
+        public static string TechAndTaskNotExist {
             get {
-                return ResourceManager.GetString("TechAndTaskNotExit", resourceCulture);
+                return ResourceManager.GetString("TechAndTaskNotExist", resourceCulture);
             }
         }
         
@@ -387,9 +387,9 @@ namespace CompanyManagementDatalayer {
         /// <summary>
         ///   Looks up a localized string similar to Sorry ,Please Create technology First.
         /// </summary>
-        public static string TechnologyNotexist {
+        public static string TechnologyNotExist {
             get {
-                return ResourceManager.GetString("TechnologyNotexist", resourceCulture);
+                return ResourceManager.GetString("TechnologyNotExist", resourceCulture);
             }
         }
         

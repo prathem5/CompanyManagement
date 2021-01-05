@@ -11,9 +11,7 @@ namespace CompanyManagementBusinessLayer.Entities
         public int EmployeeID;
         public string EmployeeName;
         public string EmployeeAddress;
-        public int Salary;
-        public DateTime EmployeeJoined;
-        public TimeSpan EmployeeLeaved;
+        public int EmployeeSalary;
         public int DepartmentID;
 
     }

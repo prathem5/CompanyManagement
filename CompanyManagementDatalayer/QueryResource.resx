@@ -213,7 +213,7 @@
   <data name="TaskNotExist" xml:space="preserve">
     <value>Sorry ,Please create the Task First</value>
   </data>
-  <data name="TechAndTaskNotExit" xml:space="preserve">
+  <data name="TechAndTaskNotExist" xml:space="preserve">
     <value>Sorry , Please create the Task and technology first</value>
   </data>
   <data name="TechIdMissing" xml:space="preserve">
@@ -225,7 +225,7 @@
   <data name="TechnologyCannotBeDeleted" xml:space="preserve">
     <value>Technology is used by more than 2 Projects and will not be deleted</value>
   </data>
-  <data name="TechnologyNotexist" xml:space="preserve">
+  <data name="TechnologyNotExist" xml:space="preserve">
     <value>Sorry ,Please Create technology First</value>
   </data>
   <data name="TechnologyTaskExceeds" xml:space="preserve">

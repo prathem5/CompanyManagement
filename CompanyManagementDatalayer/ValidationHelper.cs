@@ -131,10 +131,7 @@ namespace CompanyManagementDatalayer
             {
                 return QueryResource.TaskNameMissing;
             }
-            else if (task.TaskID == 0 )
-            {
-                return QueryResource.TaskIdMissing;
-            }
+           
             else if (task.StatusID == 0)
             {
                 return QueryResource.StatusIdMissing;
@@ -330,5 +327,14 @@ namespace CompanyManagementDatalayer
             bool techPresent = (from techTask in dc.TechTaskMaps where techTask.TechID == techID && techTask.TaskID == taskID select techTask).Any();
             return techPresent;
         }
+        public static bool IfTechnologyAssignedToTaskProject(int technologyID,int projectID,int taskId)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var result = (from pt in dc.ProjectTaskMaps where pt.TaskID == taskId select pt.Project).ToList();
+           for
+          
+            return true;
+        }
+        
     }
 }

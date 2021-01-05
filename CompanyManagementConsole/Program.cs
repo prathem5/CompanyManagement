@@ -114,12 +114,16 @@ namespace CompanyManagementConsole
             //  dm.CreateTaskInProject()
 
             // businessManager.DeleteTechnologyOFProject(4);
-            TechTaskMap techTask = new TechTaskMap();
+           /* TechTaskMap techTask = new TechTaskMap();
             techTask.TechID = 2;
             techTask.TaskID = 2;
-            businessManager.BMAddTechTask(techTask);
-
-           
+            businessManager.BMAddTechTask(techTask);*/
+           // businessManager.DeleteTask(9);
+            CompanyManagementDatalayer.Task ts = new CompanyManagementDatalayer.Task();
+            ts.TaskName = "CloudLAyer";
+            ts.StatusID = 2;
+            dataManager.AddTask(ts);
+            businessManager.BMCreateTaskInProject(ts, 1);
             Console.ReadKey();
         }
     }

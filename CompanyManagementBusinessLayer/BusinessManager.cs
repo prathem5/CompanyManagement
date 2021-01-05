@@ -11,7 +11,7 @@ namespace CompanyManagementBusinessLayer
 {
     public class BusinessManager
     {
-        public void DeleteTechnologyOFProject(int technologyID)
+        public void BMDeleteTechnology(int technologyID)
         {
             try
             {
@@ -104,48 +104,56 @@ namespace CompanyManagementBusinessLayer
                 throw ex;
             }
         }
-
-      /*  public void CreateTaskIntProject(int taskID, int projectID)
+        public void BMCreateTaskInProject(CompanyManagementDatalayer.Task task, int projectID)
         {
             try
             {
-                DataManager dataManger = new DataManager();
-                int checkStatus = dataManger.GetStatusOfProject(projectID);
-                if (checkStatus != (int)StatusEnum.Completed)
+                bool taskPresent = ValidationHelper.IfTaskExist(task.TaskID);
+                bool projectPresent = ValidationHelper.IfProjectExist(projectID);
+                if (projectPresent && taskPresent)
                 {
+                    DataManager dataManager = new DataManager();
+                    int currentStatus = dataManager.GetStatusOfProject(projectID);
+                    int projectCompleted = (int)StatusEnum.Completed;
+                   
+                    if(currentStatus != projectCompleted)
+                    {
 
-                    dataManger.CreateTaskInProject(taskID, projectID);
+                        dataManager.CreateTaskInProject(task, projectID);
+                    }
+                    else
+                    {
+                        throw new Exception(QueryResource.ProjectCompleted);
+                    }
+
                 }
-                else
+                else if (!taskPresent || !projectPresent)
                 {
-                    throw new Exception(QueryResource.ProjectCompleted);
+                    if (taskPresent)
+                    {
+                        throw new Exception(QueryResource.ProjectIDNotFound);
+                    }
+                    else if (projectPresent)
+                    {
+                        throw new Exception(QueryResource.TaskNotExist);
+                    }
+                    else
+                    {
+                        throw new Exception(QueryResource.TechAndTaskNotExist);
+                    }
                 }
             }
             catch (Exception ex) { throw ex; }
-        }*/
-        public void AssignProjectToEmployee(EmployeeProject project)
-        {
-            try
-            {
-                DataManager dataManger = new DataManager();
-                if (ValidationHelper. IsManager(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 3)
-                {
-                    dataManger.AddEmployeeProjectMap(project);
-                }
-                else if (ValidationHelper.IsWorker(employeeID) && dataManger.GetProjectCountForEmployee(employeeID) < 2)
-                {
-                    dataManger.AddEmployeeProjectMap(project);
 
-                }
-                else
-                {
-                    throw new Exception(QueryResource.EmployeeNotInContext);
-                }
-            }catch (Exception ex)
-            {
-                throw ex;
-            }
 
         }
+       // public List<Project> GetAllProjects()
+        {
+
+        }
+
+
+
+
     }
 }

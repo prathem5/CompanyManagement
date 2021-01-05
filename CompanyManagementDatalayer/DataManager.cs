@@ -180,12 +180,12 @@ namespace CompanyManagementDatalayer
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
+                        throw new Exception(QueryResource.TechnologyNotExist);
                     }
                 }
                 else
                 {
-                    throw new Exception(QueryResource.EmployeeNotFound + QueryResource.TechnologyNotexist);
+                    throw new Exception(QueryResource.EmployeeNotFound + QueryResource.TechnologyNotExist);
                 }
             }
             catch (Exception ex)
@@ -207,7 +207,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TechnologyNotexist);
+                    throw new Exception(QueryResource.TechnologyNotExist);
                 }
             }
             catch (Exception ex)
@@ -383,7 +383,7 @@ namespace CompanyManagementDatalayer
                 {
                     if (taskPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
+                        throw new Exception(QueryResource.TechnologyNotExist);
                     }
                     else if (projectPresent)
                     {
@@ -391,7 +391,7 @@ namespace CompanyManagementDatalayer
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                        throw new Exception(QueryResource.TechAndTaskNotExist);
                     }
                 }
             }
@@ -422,7 +422,7 @@ namespace CompanyManagementDatalayer
                 {
                     if (taskPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
+                        throw new Exception(QueryResource.TechnologyNotExist);
                     }
                     else if (techPresent)
                     {
@@ -430,7 +430,7 @@ namespace CompanyManagementDatalayer
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                        throw new Exception(QueryResource.TechAndTaskNotExist);
                     }
                 }
 
@@ -468,7 +468,7 @@ namespace CompanyManagementDatalayer
                         }
                         else
                         {
-                            throw new Exception(QueryResource.TechnologyNotexist);
+                            throw new Exception(QueryResource.TechnologyNotExist);
                         }
                     }
                     dc.SubmitChanges();
@@ -530,7 +530,7 @@ namespace CompanyManagementDatalayer
                     dc.SubmitChanges();
                     Console.WriteLine("Technology Deleted Sucessfully"); ;
                 }
-                else { throw new Exception(QueryResource.TechnologyNotexist); }
+                else { throw new Exception(QueryResource.TechnologyNotExist); }
             }
             catch (Exception ex)
             {
@@ -798,7 +798,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TechnologyNotexist);
+                    throw new Exception(QueryResource.TechnologyNotExist);
                 }
             }
             catch (Exception ex)
@@ -889,6 +889,12 @@ namespace CompanyManagementDatalayer
 
 
 
+        }
+        public int GetProjectStatus(int projectID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            int projectStatus = (from project in dc.Projects where project.ProjectID == projectID select project.StatusID).First();
+            return projectStatus;
         }
     }
 }
