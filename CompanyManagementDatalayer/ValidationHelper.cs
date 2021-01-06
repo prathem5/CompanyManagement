@@ -327,14 +327,30 @@ namespace CompanyManagementDatalayer
             bool techPresent = (from techTask in dc.TechTaskMaps where techTask.TechID == techID && techTask.TaskID == taskID select techTask).Any();
             return techPresent;
         }
-        public static bool IfTechnologyAssignedToTaskProject(int technologyID,int projectID,int taskId)
+        public static bool DoesProjectHasTech(int projectID, int techID)
         {
-            CompanyDBDataContext dc = new CompanyDBDataContext();
-            var result = (from pt in dc.ProjectTaskMaps where pt.TaskID == taskId select pt.Project).ToList();
-           for
-          
-            return true;
+
+            try
+            {
+                bool projectExist = ValidationHelper.IfProjectExist(projectID);
+                bool techExist = ValidationHelper.IfTechnologyExist(techID);
+                if (projectExist && techExist)
+                {
+                    CompanyDBDataContext dc = new CompanyDBDataContext();
+
+                    bool validateTechproject = (from techProject in dc.TechProjectMaps where techProject.ProjectID == projectID && techProject.TechID == techID select techProject).Any();
+
+                    return validateTechproject;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
+            catch (Exception ex) { throw ex; }
+
         }
-        
     }
 }

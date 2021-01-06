@@ -11,7 +11,7 @@ namespace CompanyManagementBusinessLayer.Entities
         public int ProjectID;
         public string ProjectName;
         public int ProjectBudget;
-        public int StatusID;
-        public int ClientID;
+        public int statusID;
+        public int clientID;
     }
 }

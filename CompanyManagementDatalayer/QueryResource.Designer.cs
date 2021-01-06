@@ -250,20 +250,20 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no such project Id .
-        /// </summary>
-        public static string ProjectIDNotFound {
-            get {
-                return ResourceManager.GetString("ProjectIDNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Project Name is Missing.
         /// </summary>
         public static string ProjectNameMissing {
             get {
                 return ResourceManager.GetString("ProjectNameMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no such project Id .
+        /// </summary>
+        public static string ProjectNotFound {
+            get {
+                return ResourceManager.GetString("ProjectNotFound", resourceCulture);
             }
         }
         
@@ -322,6 +322,15 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry ,Please create the Task First.
+        /// </summary>
+        public static string TaskDoesNotExist {
+            get {
+                return ResourceManager.GetString("TaskDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task Id is Missing.
         /// </summary>
         public static string TaskIdMissing {
@@ -340,20 +349,11 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry ,Please create the Task First.
-        /// </summary>
-        public static string TaskNotExist {
-            get {
-                return ResourceManager.GetString("TaskNotExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sorry , Please create the Task and technology first.
         /// </summary>
-        public static string TechAndTaskNotExist {
+        public static string TechAndTaskDoesNotExist {
             get {
-                return ResourceManager.GetString("TechAndTaskNotExist", resourceCulture);
+                return ResourceManager.GetString("TechAndTaskDoesNotExist", resourceCulture);
             }
         }
         
@@ -376,6 +376,15 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum 4 Technologies are been Appiled for this Task Please update or delete.
+        /// </summary>
+        public static string TechnologiesOfTaskExceeds {
+            get {
+                return ResourceManager.GetString("TechnologiesOfTaskExceeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Technology is used by more than 2 Projects and will not be deleted.
         /// </summary>
         public static string TechnologyCannotBeDeleted {
@@ -387,27 +396,18 @@ namespace CompanyManagementDatalayer {
         /// <summary>
         ///   Looks up a localized string similar to Sorry ,Please Create technology First.
         /// </summary>
-        public static string TechnologyNotExist {
+        public static string TechnologyDoesNotExist {
             get {
-                return ResourceManager.GetString("TechnologyNotExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Maximum 4 Technologies are been Appiled for this Task Please update or delete.
-        /// </summary>
-        public static string TechnologyTaskExceeds {
-            get {
-                return ResourceManager.GetString("TechnologyTaskExceeds", resourceCulture);
+                return ResourceManager.GetString("TechnologyDoesNotExist", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Technology is already present in Task .
         /// </summary>
-        public static string TechPresentInTask {
+        public static string TechnologyPresentInTask {
             get {
-                return ResourceManager.GetString("TechPresentInTask", resourceCulture);
+                return ResourceManager.GetString("TechnologyPresentInTask", resourceCulture);
             }
         }
         

@@ -12,5 +12,6 @@ namespace CompanyManagementBusinessLayer.Entities
         public int EmployeeProjectMapID;
         public int EmployeeID;
         public int ProjectID;
+        public int RoleID;
     }
 }

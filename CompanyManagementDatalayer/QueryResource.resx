@@ -180,11 +180,11 @@
   <data name="ProjectIdMissing" xml:space="preserve">
     <value>Project Id is Missing</value>
   </data>
-  <data name="ProjectIDNotFound" xml:space="preserve">
-    <value>There is no such project Id </value>
-  </data>
   <data name="ProjectNameMissing" xml:space="preserve">
     <value>Project Name is Missing</value>
+  </data>
+  <data name="ProjectNotFound" xml:space="preserve">
+    <value>There is no such project Id </value>
   </data>
   <data name="ProjectTaskIDMissing" xml:space="preserve">
     <value>ProjectTask ID is Missing</value>
@@ -204,16 +204,16 @@
   <data name="TaskActiveState" xml:space="preserve">
     <value>Cannot delete the Active Task</value>
   </data>
+  <data name="TaskDoesNotExist" xml:space="preserve">
+    <value>Sorry ,Please create the Task First</value>
+  </data>
   <data name="TaskIdMissing" xml:space="preserve">
     <value>Task Id is Missing</value>
   </data>
   <data name="TaskNameMissing" xml:space="preserve">
     <value>Task Name is Missing</value>
   </data>
-  <data name="TaskNotExist" xml:space="preserve">
-    <value>Sorry ,Please create the Task First</value>
-  </data>
-  <data name="TechAndTaskNotExist" xml:space="preserve">
+  <data name="TechAndTaskDoesNotExist" xml:space="preserve">
     <value>Sorry , Please create the Task and technology first</value>
   </data>
   <data name="TechIdMissing" xml:space="preserve">
@@ -222,16 +222,16 @@
   <data name="TechNameMissing" xml:space="preserve">
     <value>Technology Name is Missing</value>
   </data>
+  <data name="TechnologiesOfTaskExceeds" xml:space="preserve">
+    <value>Maximum 4 Technologies are been Appiled for this Task Please update or delete</value>
+  </data>
   <data name="TechnologyCannotBeDeleted" xml:space="preserve">
     <value>Technology is used by more than 2 Projects and will not be deleted</value>
   </data>
-  <data name="TechnologyNotExist" xml:space="preserve">
+  <data name="TechnologyDoesNotExist" xml:space="preserve">
     <value>Sorry ,Please Create technology First</value>
   </data>
-  <data name="TechnologyTaskExceeds" xml:space="preserve">
-    <value>Maximum 4 Technologies are been Appiled for this Task Please update or delete</value>
-  </data>
-  <data name="TechPresentInTask" xml:space="preserve">
+  <data name="TechnologyPresentInTask" xml:space="preserve">
     <value>Technology is already present in Task </value>
   </data>
   <data name="TechProjectIDMissing" xml:space="preserve">

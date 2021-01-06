@@ -8,22 +8,22 @@ using CompanyManagementBusinessLayer.Entities;
 
 namespace CompanyManagementBusinessLayer
 {
-    class DaoClass
+    class DataConverter
     {
-        public BOProject BOProjectDao(Project project)
+        public BOProject ProjectConverter(Project project)
         {
             BOProject boProject = new BOProject()
             {
                 ProjectID = project.ProjectID,
                 ProjectName = project.ProjectName,
                 ProjectBudget = project.ProjectBudget,
-                StatusID = project.StatusID,
-                ClientID = project.ClientID
+                
+                
             };
             return boProject;
 
         }
-        public BOCompany BOCompanyDao(Company company)
+        public BOCompany CompanyConverter(Company company)
         {
             BOCompany boCompany = new BOCompany()
             {
@@ -33,7 +33,7 @@ namespace CompanyManagementBusinessLayer
             };
             return boCompany;
         }
-        public BOClient BOClientDao(Client client)
+        public BOClient ClientConverter(Client client)
         {
 
             BOClient boClient = new BOClient()
@@ -41,11 +41,11 @@ namespace CompanyManagementBusinessLayer
                 ClientID = client.ClientID,
                 ClientName = client.ClientName,
                 ClientAddress = client.ClientAddress,
-                CompanyID = (int)client.CompanyID
+                CompanyID =  (int) client.CompanyID
             };
             return boClient;
         }
-        public BODepartmentMaster BODepartmentDao(DepartmentMaster department)
+        public BODepartmentMaster DepartmentConverter (DepartmentMaster department)
         {
             BODepartmentMaster boDepartmentMaster = new BODepartmentMaster()
             {
@@ -55,7 +55,7 @@ namespace CompanyManagementBusinessLayer
             };
             return boDepartmentMaster;
         }
-        public BOEmployee BOEmployeeDao(Employee employee)
+        public BOEmployee EmployeeConverter(Employee employee)
         {
             BOEmployee boEmployee = new BOEmployee()
             {
@@ -67,7 +67,7 @@ namespace CompanyManagementBusinessLayer
             };
             return boEmployee;
         }
-        public BOStatusMaster BOStatusDao(StatusMaster status)
+        public BOStatusMaster StatusConverter(StatusMaster status)
         {
             BOStatusMaster boStatus = new BOStatusMaster()
             {
@@ -77,7 +77,7 @@ namespace CompanyManagementBusinessLayer
             return boStatus;
 
         }
-        public BoTask BOTaskDao(CompanyManagementDatalayer.Task task)
+        public BoTask TaskConverter(CompanyManagementDatalayer.Task task)
         {
             BoTask boTask = new BoTask()
             {
@@ -88,7 +88,7 @@ namespace CompanyManagementBusinessLayer
             return boTask;
 
         }
-        public BOTechnologyMaster BOTechnologyDao( TechnologyMaster technology)
+        public BOTechnologyMaster TechnologyConverter( TechnologyMaster technology)
         {
             BOTechnologyMaster boTechnology = new BOTechnologyMaster()
             {
@@ -99,7 +99,7 @@ namespace CompanyManagementBusinessLayer
             return boTechnology;
             
         }
-        public BOEmployeeProjectMap BOEmployeeProjectMap(EmployeeProject empProject)
+        public BOEmployeeProjectMap EmployeeProjectMap(EmployeeProject empProject)
         {
             BOEmployeeProjectMap boEmployeeProject = new BOEmployeeProjectMap()
             {
@@ -109,7 +109,7 @@ namespace CompanyManagementBusinessLayer
             };
             return boEmployeeProject;
         }
-        public BOEmployeeTaskMap BOEmployeeTaskMap(EmployeeTaskMap empTask)
+        public BOEmployeeTaskMap EmployeeTaskMap(EmployeeTaskMap empTask)
         {
             BOEmployeeTaskMap boEmployeeTask = new Entities.BOEmployeeTaskMap()
             {
@@ -119,7 +119,7 @@ namespace CompanyManagementBusinessLayer
             };
             return boEmployeeTask;
         }
-        public BOProjectTaskMap BOProjectTaskMap(ProjectTaskMap projectTask)
+        public BOProjectTaskMap ProjectTaskMap(ProjectTaskMap projectTask)
         {
             BOProjectTaskMap boProjectTask = new BOProjectTaskMap()
             {
@@ -129,7 +129,7 @@ namespace CompanyManagementBusinessLayer
             };
             return boProjectTask;
         }
-        public BoTechTaskMap BOTechnologyTaskMap(TechTaskMap techTask)
+        public BoTechTaskMap  TechnologyTaskMap(TechTaskMap techTask)
         {
             BoTechTaskMap boTechTask = new BoTechTaskMap()
             {

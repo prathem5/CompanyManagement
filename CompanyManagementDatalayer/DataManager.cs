@@ -55,7 +55,7 @@ namespace CompanyManagementDatalayer
                 else
                 {
 
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -180,12 +180,12 @@ namespace CompanyManagementDatalayer
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechnologyNotExist);
+                        throw new Exception(QueryResource.TechnologyDoesNotExist);
                     }
                 }
                 else
                 {
-                    throw new Exception(QueryResource.EmployeeNotFound + QueryResource.TechnologyNotExist);
+                    throw new Exception(QueryResource.EmployeeNotFound + QueryResource.TechnologyDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -207,7 +207,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TechnologyNotExist);
+                    throw new Exception(QueryResource.TechnologyDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -230,7 +230,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
 
             }
@@ -355,7 +355,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -383,15 +383,15 @@ namespace CompanyManagementDatalayer
                 {
                     if (taskPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotExist);
+                        throw new Exception(QueryResource.TechnologyDoesNotExist);
                     }
                     else if (projectPresent)
                     {
-                        throw new Exception(QueryResource.TaskNotExist);
+                        throw new Exception(QueryResource.TaskDoesNotExist);
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExist);
+                        throw new Exception(QueryResource.TechAndTaskDoesNotExist);
                     }
                 }
             }
@@ -409,7 +409,7 @@ namespace CompanyManagementDatalayer
                 if (taskPresent && techPresent)
                 {
 
-                    TechTaskMap tech = new TechTaskMap();
+                    TechTaskMap tech =  new TechTaskMap();
                         tech.TaskID = taskID;
                         tech.TechID = technologyID;
                         dc.TechTaskMaps.InsertOnSubmit(tech);
@@ -422,15 +422,15 @@ namespace CompanyManagementDatalayer
                 {
                     if (taskPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotExist);
+                        throw new Exception(QueryResource.TechnologyDoesNotExist);
                     }
                     else if (techPresent)
                     {
-                        throw new Exception(QueryResource.TaskNotExist);
+                        throw new Exception(QueryResource.TaskDoesNotExist);
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExist);
+                        throw new Exception(QueryResource.TechAndTaskDoesNotExist);
                     }
                 }
 
@@ -468,14 +468,14 @@ namespace CompanyManagementDatalayer
                         }
                         else
                         {
-                            throw new Exception(QueryResource.TechnologyNotExist);
+                            throw new Exception(QueryResource.TechnologyDoesNotExist);
                         }
                     }
                     dc.SubmitChanges();
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TaskNotExist);
+                    throw new Exception(QueryResource.TaskDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -530,7 +530,7 @@ namespace CompanyManagementDatalayer
                     dc.SubmitChanges();
                     Console.WriteLine("Technology Deleted Sucessfully"); ;
                 }
-                else { throw new Exception(QueryResource.TechnologyNotExist); }
+                else { throw new Exception(QueryResource.TechnologyDoesNotExist); }
             }
             catch (Exception ex)
             {
@@ -560,7 +560,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TaskNotExist);
+                    throw new Exception(QueryResource.TaskDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -588,7 +588,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -784,21 +784,21 @@ namespace CompanyManagementDatalayer
             dc.SubmitChanges();
         }
 
-        public int GetAllProjectOfTechnology(int technologyID)
+        public int GetProjectCountOfTechnology(int technologyID)
         {
             try
             {
                 if (ValidationHelper.IfTechnologyExist(technologyID))
                 {
                     CompanyDBDataContext dc = new CompanyDBDataContext();
-                    List<int> projectList = (from techProject in dc.TechProjectMaps
+                   int projectList = (from techProject in dc.TechProjectMaps
                                              where techProject.TechID == technologyID
-                                             select techProject.ProjectID).ToList();
-                    return projectList.Count;
+                                             select techProject.Project).ToList().Count;
+                    return projectList ;
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TechnologyNotExist);
+                    throw new Exception(QueryResource.TechnologyDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -819,7 +819,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
 
             }
@@ -829,7 +829,7 @@ namespace CompanyManagementDatalayer
             }
 
         }
-        public int GetAllTechnologyForTask(int taskID)
+        public int GetTechnologyCountForTask(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             List<int> techTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select task.TechID).ToList();
@@ -861,7 +861,7 @@ namespace CompanyManagementDatalayer
                 throw ex;
             }
         }
-        public void DeleteEmployee(int empID)
+       /* public void DeleteEmployee(int empID)
         {
            try {
                 if (ValidationHelper.IfEmployeeExist(empID))
@@ -884,17 +884,25 @@ namespace CompanyManagementDatalayer
             {
                 throw ex;
             }
-
-
-
-
-
-        }
-        public int GetProjectStatus(int projectID)
+          
+        }*/
+       
+        public List<Project> GEtProjectListOfTask(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
-            int projectStatus = (from project in dc.Projects where project.ProjectID == projectID select project.StatusID).First();
-            return projectStatus;
+            var projectList = (from project in dc.ProjectTaskMaps where project.TaskID == taskID select project.Project).ToList();
+            return projectList;
+        }
+
+        public int GetProjectStatus(int projectID)
+        {
+            try
+            {
+                CompanyDBDataContext dc = new CompanyDBDataContext();
+                int projectStatus = (from project in dc.Projects where project.ProjectID == projectID select project.StatusID).First();
+                return projectStatus;
+            }
+            catch(Exception ex) { throw ex; }
         }
     }
 }
