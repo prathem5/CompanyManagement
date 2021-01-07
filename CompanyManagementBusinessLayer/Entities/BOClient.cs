@@ -12,7 +12,7 @@ namespace CompanyManagementBusinessLayer.Entities
         public int ClientID;
         public string ClientName;
         public string ClientAddress;
-        public int CompanyID;
+        public Company Company;
         
     }
     

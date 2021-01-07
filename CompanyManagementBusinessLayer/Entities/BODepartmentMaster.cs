@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CompanyManagementDatalayer;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BODepartmentMaster
+  public  class BODepartmentMaster
     {
         public int DepartmentID;
         public string DepartmentName;
-        public int CompanyID;
+        public Company CompanyID;
     }
 }

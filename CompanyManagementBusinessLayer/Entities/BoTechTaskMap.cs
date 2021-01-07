@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BoTechTaskMap
+    public class BOTechTaskMap
     {
         public int TechTaskMapID;
         public int TechnologyID;

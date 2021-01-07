@@ -409,14 +409,14 @@ namespace CompanyManagementDatalayer
                 if (taskPresent && techPresent)
                 {
 
-                    TechTaskMap tech =  new TechTaskMap();
-                        tech.TaskID = taskID;
-                        tech.TechID = technologyID;
-                        dc.TechTaskMaps.InsertOnSubmit(tech);
-                        dc.SubmitChanges();
-                    
-                    
-                    
+                    TechTaskMap tech = new TechTaskMap();
+                    tech.TaskID = taskID;
+                    tech.TechID = technologyID;
+                    dc.TechTaskMaps.InsertOnSubmit(tech);
+                    dc.SubmitChanges();
+
+
+
                 }
                 else if (!taskPresent || !techPresent)
                 {
@@ -791,10 +791,10 @@ namespace CompanyManagementDatalayer
                 if (ValidationHelper.IfTechnologyExist(technologyID))
                 {
                     CompanyDBDataContext dc = new CompanyDBDataContext();
-                   int projectList = (from techProject in dc.TechProjectMaps
-                                             where techProject.TechID == technologyID
-                                             select techProject.Project).ToList().Count;
-                    return projectList ;
+                    int projectList = (from techProject in dc.TechProjectMaps
+                                       where techProject.TechID == technologyID
+                                       select techProject.Project).ToList().Count;
+                    return projectList;
                 }
                 else
                 {
@@ -856,37 +856,38 @@ namespace CompanyManagementDatalayer
             try
             {
                 dc.SubmitChanges();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-       /* public void DeleteEmployee(int empID)
-        {
-           try {
-                if (ValidationHelper.IfEmployeeExist(empID))
-                {
-                    CompanyDBDataContext dc = new CompanyDBDataContext();
+        /* public void DeleteEmployee(int empID)
+         {
+            try {
+                 if (ValidationHelper.IfEmployeeExist(empID))
+                 {
+                     CompanyDBDataContext dc = new CompanyDBDataContext();
 
-                    var deleteEmployee = (from emp in dc.Employees
-                                          join empProject in dc.EmployeeProjects
-                                          on emp.EmployeeID equals empProject.EmployeeID
-                                          join empTask in dc.EmployeeTaskMaps
-                                          on emp.EmployeeID equals empTask.EmployeeID
-                                          where emp.EmployeeID == empID
-                                          select emp).ToList();
-                    foreach (var employee in deleteEmployee)
-                    {
-                        dc.Employees.DeleteOnSubmit(employee);
-                    }
-                }
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
-          
-        }*/
-       
+                     var deleteEmployee = (from emp in dc.Employees
+                                           join empProject in dc.EmployeeProjects
+                                           on emp.EmployeeID equals empProject.EmployeeID
+                                           join empTask in dc.EmployeeTaskMaps
+                                           on emp.EmployeeID equals empTask.EmployeeID
+                                           where emp.EmployeeID == empID
+                                           select emp).ToList();
+                     foreach (var employee in deleteEmployee)
+                     {
+                         dc.Employees.DeleteOnSubmit(employee);
+                     }
+                 }
+             }catch(Exception ex)
+             {
+                 throw ex;
+             }
+
+         }*/
+
         public List<Project> GEtProjectListOfTask(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
@@ -902,7 +903,35 @@ namespace CompanyManagementDatalayer
                 int projectStatus = (from project in dc.Projects where project.ProjectID == projectID select project.StatusID).First();
                 return projectStatus;
             }
-            catch(Exception ex) { throw ex; }
+            catch (Exception ex) { throw ex; }
+        }
+        public DepartmentMaster GetDepartment(int departmentID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            DepartmentMaster departmentObj = (from dept in dc.DepartmentMasters where dept.DepartmentID == departmentID select dept).First();
+            return departmentObj;
+
+        }
+        public StatusMaster GetStatus(int statusID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            StatusMaster statusObj = (from status in dc.StatusMasters where status.StatusID == statusID select status).First();
+            return statusObj;
+
+        }
+        public Company GetCompany(int companyID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            Company companyObj = (from company in dc.Companies where company.CompanyID == companyID select company).First();
+            return companyObj;
+
+        }
+        public Client GetClient(int clientID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            Client clientObj = (from client in dc.Clients where client.ClientID == clientID select client).First();
+            return clientObj ;
+
         }
     }
 }

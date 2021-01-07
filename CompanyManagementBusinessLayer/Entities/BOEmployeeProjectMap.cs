@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BOEmployeeProjectMap
+  public  class BOEmployeeProjectMap
     {
         public int EmployeeProjectMapID;
         public int EmployeeID;

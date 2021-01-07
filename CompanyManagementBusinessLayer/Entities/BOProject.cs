@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using CompanyManagementDatalayer;
 namespace CompanyManagementBusinessLayer.Entities
 {
   public  class BOProject
@@ -11,7 +11,7 @@ namespace CompanyManagementBusinessLayer.Entities
         public int ProjectID;
         public string ProjectName;
         public int ProjectBudget;
-        public int statusID;
-        public int clientID;
+        public StatusMaster statusID;
+        public Client clientID;
     }
 }

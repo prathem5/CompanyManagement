@@ -198,18 +198,18 @@ namespace CompanyManagementDatalayer {
         /// <summary>
         ///   Looks up a localized string similar to 2.
         /// </summary>
-        public static string MaxProjectUsingTech {
+        public static string MaximumNumberOfProjectForEmployee {
             get {
-                return ResourceManager.GetString("MaxProjectUsingTech", resourceCulture);
+                return ResourceManager.GetString("MaximumNumberOfProjectForEmployee", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.
+        ///   Looks up a localized string similar to 3.
         /// </summary>
-        public static string MaxTechAssignedToProject {
+        public static string MaximumNumberOfProjectForManager {
             get {
-                return ResourceManager.GetString("MaxTechAssignedToProject", resourceCulture);
+                return ResourceManager.GetString("MaximumNumberOfProjectForManager", resourceCulture);
             }
         }
         
@@ -385,6 +385,15 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 4.
+        /// </summary>
+        public static string TechnologyAssignedToMaximumProject {
+            get {
+                return ResourceManager.GetString("TechnologyAssignedToMaximumProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Technology is used by more than 2 Projects and will not be deleted.
         /// </summary>
         public static string TechnologyCannotBeDeleted {
@@ -408,6 +417,15 @@ namespace CompanyManagementDatalayer {
         public static string TechnologyPresentInTask {
             get {
                 return ResourceManager.GetString("TechnologyPresentInTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2.
+        /// </summary>
+        public static string TechnologyUsedInMaximumProjects {
+            get {
+                return ResourceManager.GetString("TechnologyUsedInMaximumProjects", resourceCulture);
             }
         }
         

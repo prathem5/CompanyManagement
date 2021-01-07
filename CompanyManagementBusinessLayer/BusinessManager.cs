@@ -17,21 +17,23 @@ namespace CompanyManagementBusinessLayer
             {
                 DataManager dataManger = new DataManager();
                 int techCount = dataManger.GetProjectCountOfTechnology(technologyID);
-                if (techCount < Convert.ToInt32(QueryResource.MaxProjectUsingTech))
+                if (techCount < Convert.ToInt32(QueryResource.TechnologyUsedInMaximumProjects))
                 {
                     dataManger.DeleteTechnology(technologyID);
                 }
-                else {
+                else
+                {
                     throw new Exception(QueryResource.TechnologyCannotBeDeleted);
                 }
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw ex;
             }
         }
-        public void AssignTEchnologyToTAsk(int taskID,int technologyID)
+        public void AssignTEchnologyToTAsk(int taskID, int technologyID)
         {
             try
             {
@@ -39,52 +41,24 @@ namespace CompanyManagementBusinessLayer
                 var projectList = dataManager.GEtProjectListOfTask(taskID);
                 foreach (var project in projectList)
                 {
-                    if (ValidationHelper.DoesProjectHasTech(project.ProjectID, technologyID)
+                    if (ValidationHelper.DoesProjectHasTech(project.ProjectID, technologyID))
                     {
                         dataManager.AssignTechnologyToTask(technologyID, taskID);
                     }
 
                 }
-            }catch (Exception ex) { throw ex; }
+            }
+            catch (Exception ex) { throw ex; }
 
         }
-        public void AddTechnologyToTask(TechTaskMap techTask)
-        {
-            try
-            {
-                DataManager dataManger = new DataManager();
-                int count = dataManger.GetTechnologyCountForTask(techTask.TaskID);
-                if (count < Convert.ToInt32(QueryResource.MaxTechAssignedToProject))
-                {
-                    if (!ValidationHelper.IsTechPresentInTask(techTask.TechID, techTask.TaskID))
-                    {
-                        dataManger.AddTechTaskMap(techTask);
-                    }
-                    else
-                    {
-                        throw new Exception(QueryResource.TechnologyPresentInTask);
-                    }
-                }
-                else
-                {
-                    throw new Exception(QueryResource.TechnologiesOfTaskExceeds);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw ex;
-               
-            }
-
-        }
+       
         public void DeleteTask(int TaskID)
         {
             try
             {
                 DataManager dataManger = new DataManager();
                 int taskStatus = dataManger.GetStatusOfTask(TaskID);
-                if (taskStatus != (int)StatusEnum.Active && taskStatus != (int)StatusEnum.Delayed)
+                if (taskStatus == (int)StatusEnum.NotStarted)
                 {
                     dataManger.DeleteTask(TaskID);
                 }
@@ -106,7 +80,7 @@ namespace CompanyManagementBusinessLayer
             {
                 DataManager dataManger = new DataManager();
                 int projectStatus = dataManger.GetStatusOfProject(projectID);
-                if (projectStatus != (int)StatusEnum.Active && projectStatus != (int)StatusEnum.Delayed)
+                if (projectStatus == (int)StatusEnum.NotStarted)
                 {
                     dataManger.DeleteProject(projectID);
 
@@ -116,12 +90,13 @@ namespace CompanyManagementBusinessLayer
                     throw new Exception(QueryResource.ProjectActive);
                 }
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public void BMCreateTaskInProject(CompanyManagementDatalayer.Task task, int projectID)
+        public void CreateTaskInProject(CompanyManagementDatalayer.Task task, int projectID)
         {
             try
             {
@@ -132,8 +107,8 @@ namespace CompanyManagementBusinessLayer
                     DataManager dataManager = new DataManager();
                     int currentStatus = dataManager.GetStatusOfProject(projectID);
                     int projectCompleted = (int)StatusEnum.Completed;
-                   
-                    if(currentStatus != projectCompleted)
+
+                    if (currentStatus != projectCompleted)
                     {
 
                         dataManager.CreateTaskInProject(task, projectID);
@@ -164,31 +139,65 @@ namespace CompanyManagementBusinessLayer
 
 
         }
-        public List<Project> GetAllProjects()
+        public void AddTechnologyToTask(TechTaskMap techTask)
         {
             try
             {
-                    DataManager dataManager = new DataManager();
-                    List<Project> projectList = dataManager.GetAllProjects();
-                    return projectList;
+                DataManager dataManger = new DataManager();
+                int count = dataManger.GetTechnologyCountForTask(techTask.TaskID);
+                if (count < Convert.ToInt32(QueryResource.TechnologyAssignedToMaximumProject))
+                {
+                    if (!ValidationHelper.IsTechPresentInTask(techTask.TechID, techTask.TaskID))
+                    {
+                        dataManger.AddTechTaskMap(techTask);
+                    }
+                    else
+                    {
+                        throw new Exception(QueryResource.TechnologyPresentInTask);
+                    }
+                }
+                else
+                {
+                    throw new Exception(QueryResource.TechnologiesOfTaskExceeds);
+                }
             }
-            catch (Exception ex) { throw ex; }
-           
-            
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw ex;
+
+            }
+
         }
-        public List<TechnologyMaster> GetAllTechnologies()
+        public List<BOProject> GetAllProjects()
         {
             try
-            { 
-
-                    DataManager dataManager = new DataManager();
-                    List<TechnologyMaster> technologyList = dataManager.GetAllTechologies();
-                    return technologyList;
+            {
+                DataManager dataManager = new DataManager();
+                DataConverter converter = new DataConverter();
+                List<BOProject> boProjectList = converter.ConvertToBOProjectList(dataManager.GetAllProjects());
+                return boProjectList;
             }
             catch (Exception ex) { throw ex; }
-            
+
 
         }
+        public List<BOTechnologyMaster> GetAllTechnologies()
+        {
+
+            try
+            {
+                DataManager dataManager = new DataManager();
+                DataConverter converter = new DataConverter();
+                List<BOTechnologyMaster> boTechnologyList = converter.ConvertToBOTechnologyMasterList(dataManager.GetAllTechologies());
+                return boTechnologyList;
+            }
+            catch (Exception ex) { throw ex; }
+
+
+
+        }
+
         public int GetEmployeeCountForProject(int projectID)
         {
             try
@@ -199,84 +208,93 @@ namespace CompanyManagementBusinessLayer
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<Employee> GetAllEmployeesForProject(int projectID)
+        public List<BOEmployee> GetAllEmployeesForProject(int projectID)
         {
             try
             {
                 DataManager dataManager = new DataManager();
-                List<Employee> employeeList = dataManager.GetEmployeesForProject(projectID);
+                DataConverter converter = new DataConverter();
+                List<BOEmployee> employeeList = converter.ConvertToBOEmployeeList(dataManager.GetEmployeesForProject(projectID));
                 return employeeList;
             }
             catch (Exception ex) { throw ex; }
 
         }
-         public List<Project> GetAllDelayedProjects() 
+        public List<BOProject> GetAllDelayedProjects()
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<Project> projectList = dataManager.GetAllDelayedProjects();
+                List<BOProject> projectList = converter.ConvertToBOProjectList(dataManager.GetAllDelayedProjects());
                 return projectList;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<Project> GetAllProjectsForEmployee(int employeeID)
+        public List<BOProject> GetAllProjectsForEmployee(int employeeID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<Project> projectList = dataManager.GetAllProjectsForEmployee(employeeID);
+                List<BOProject> projectList = converter.ConvertToBOProjectList(dataManager.GetAllProjectsForEmployee(employeeID));
                 return projectList;
             }
             catch (Exception ex) { throw ex; }
         }
-       public List<CompanyManagementDatalayer.Task> GetAllTasksForEmployee(int employeeID)
+        public List<BOTask> GetAllTasksForEmployee(int employeeID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<CompanyManagementDatalayer.Task> taskList = dataManager.GetAllTasksForEmployee(employeeID);
+                List<BOTask> taskList = converter.ConvertToBOTaskList(dataManager.GetAllTasksForEmployee(employeeID));
                 return taskList;
             }
             catch (Exception ex) { throw ex; }
 
         }
-        public List<TechTaskMap> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
+        public List<BOTechTaskMap> GetAllTechnologyTasksForEmployee(int technologyID, int employeeID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<TechTaskMap> techList = dataManager.GetAllTechnologyTasksForEmployee(technologyID, employeeID);
+                List<BOTechTaskMap> techList = converter.ConvertToBOTechTaskList(dataManager.GetAllTechnologyTasksForEmployee(technologyID, employeeID));
+
                 return techList;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<Project> GetAllTechnologyProjects(int technologyID)
+        public List<BOProject> GetAllTechnologyProjects(int technologyID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<Project> techProjectList = dataManager.GetAllTechnologyProjects(technologyID);
+                List<BOProject> techProjectList = converter.ConvertToBOProjectList(dataManager.GetAllTechnologyProjects(technologyID));
                 return techProjectList;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<CompanyManagementDatalayer.Task> GetAllActiveTasksForProject(int projectID)
+        public List<BOTask> GetAllActiveTasksForProject(int projectID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<CompanyManagementDatalayer.Task> taskList = dataManager.GetAllActiveTasksForProject(projectID);
+                List<BOTask> taskList = converter.ConvertToBOTaskList(dataManager.GetAllActiveTasksForProject(projectID));
                 return taskList;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<TechnologyMaster> GetAllTechnologiesForEmployee(int employeeID)
+        public List<BOTechnologyMaster> GetAllTechnologiesForEmployee(int employeeID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<TechnologyMaster> techList = dataManager.GetAllTechnologiesForEmployee(employeeID);
+                List<BOTechnologyMaster> techList = converter.ConvertToBOTechnologyMasterList(dataManager.GetAllTechnologiesForEmployee(employeeID));
                 return techList;
             }
             catch (Exception ex) { throw ex; }
@@ -285,37 +303,133 @@ namespace CompanyManagementBusinessLayer
         {
             try
             {
+
                 DataManager dataManager = new DataManager();
                 int projectCount = dataManager.GetProjectCountForEmployee(employeeID);
                 return projectCount;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<Project> GetAllActiveProjectsManagedByEmployee(int employeeID)
+        public List<BOProject> GetAllActiveProjectsManagedByEmployee(int employeeID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<Project> projectManagerList = dataManager.GetAllActiveProjectsManagedByEmployee(employeeID);
+                List<BOProject> projectManagerList = converter.ConvertToBOProjectList(dataManager.GetAllActiveProjectsManagedByEmployee(employeeID));
                 return projectManagerList;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<CompanyManagementDatalayer.Task> GetAllDelayedTasksForEmployee(int employeeID)
+        public List<BOTask> GetAllDelayedTasksForEmployee(int employeeID)
         {
             try
             {
+                DataConverter converter = new DataConverter();
                 DataManager dataManager = new DataManager();
-                List<CompanyManagementDatalayer.Task> taskList = dataManager.GetAllDelayedTasksForEmployee(employeeID);
+                List<BOTask> taskList = converter.ConvertToBOTaskList(dataManager.GetAllDelayedTasksForEmployee(employeeID));
                 return taskList;
             }
             catch (Exception ex) { throw ex; }
 
         }
+        public void AddProject(Project project)
+        {
+            try
+            {
+                DataManager dataManager = new DataManager();
+                dataManager.AddProject(project);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void AddTechnology(TechnologyMaster technology)
+        {
+            try
+            {
+                DataManager dataManager = new DataManager();
+                dataManager.AddTechnology(technology);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void AddEmployee(Employee employee)
+        {
+            try
+            {
+                DataManager dataManager = new DataManager();
+                dataManager.AddEmployee(employee);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       /* public void AssignEmployeeToProject(int employeeID, int projectID, int roleID)
+        {
+            try
+            {
+             
+                    DataManager dataManager = new DataManager();
+                    
+                    int projectCountForEmployee = dataManager.GetProjectCountForEmployee(employeeID);
+                    int projectManagedCountForEmployee = dataManager.GetAllActiveProjectsManagedByEmployee(employeeID).Count();
+                    if (roleID != (int)RoleEnum.ProjectManager)
+                    {
+                        if (projectCountForEmployee >=Convert.ToInt32( QueryResource.MaximumNumberOfProjectForEmployee))
+                        {
+                            throw new Exception(QueryResource.);
+                        }
+                      
+                
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }*/
+        public void UpdateTechnologiesForTask(List<int> technologyIDs, int taskID)
+        {
+            try
+            {
+                DataManager dataManager = new DataManager();
+                dataManager.UpdateTechnologiesForTask(technologyIDs, taskID);
 
+            }
 
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
+        public void DeleteEmployeeFromSystem(int employeeID)
+        {
+            try
+            {
+                DataManager dataManager = new DataManager();
+                dataManager.DeleteEmployeeFromSystem(employeeID);
 
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
 
     }
+
+
+
+
+
+
 }
+
