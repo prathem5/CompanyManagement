@@ -369,7 +369,7 @@ namespace CompanyManagementBusinessLayer
                 throw ex;
             }
         }
-       /* public void AssignEmployeeToProject(int employeeID, int projectID, int roleID)
+       public void AssignEmployeeToProject(int employeeID, int projectID, )
         {
             try
             {
@@ -378,15 +378,28 @@ namespace CompanyManagementBusinessLayer
                     
                     int projectCountForEmployee = dataManager.GetProjectCountForEmployee(employeeID);
                     int projectManagedCountForEmployee = dataManager.GetAllActiveProjectsManagedByEmployee(employeeID).Count();
-                    if (roleID != (int)RoleEnum.ProjectManager)
+                if (ValidationHelper.IsManager(employeeID))
+                {
+                    if (projectManagedCountForEmployee >= Convert.ToInt32(QueryResource.MaximumNumberOfProjectForManager))
                     {
-                        if (projectCountForEmployee >=Convert.ToInt32( QueryResource.MaximumNumberOfProjectForEmployee))
-                        {
-                            throw new Exception(QueryResource.);
-                        }
-                      
-                
+                        throw new Exception(QueryResource.CannotAssignMoreProjectForManager);
+                    }
+                    else if (projectManagedCountForEmployee < Convert.ToInt32(QueryResource.MaximumNumberOfProjectForManager))
+                    {
+                        dataManager.AssignEmployeeToProject(employeeID, projectID);
+                    }
 
+
+                }else if (ValidationHelper.IsWorker(employeeID))
+                {
+                    if (projectCountForEmployee >= Convert.ToInt32(QueryResource.CannotAssignMoreProjectsForEmployee))
+                    {
+                        throw new Exception(QueryResource.CannotAssignMoreProjectsForEmployee);
+                    }else if (projectManagedCountForEmployee < Convert.ToInt32(QueryResource.CannotAssignMoreProjectsForEmployee))
+                    {
+                        dataManager.AssignEmployeeToProject(employeeID, projectID);
+                    }
+                }
             }
             catch (Exception ex)
             {

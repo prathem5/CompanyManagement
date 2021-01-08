@@ -499,7 +499,7 @@ namespace CompanyManagementDatalayer
                     dc.EmployeeProjects.DeleteAllOnSubmit(employeeProjectList);
                     dc.Employees.DeleteOnSubmit(employeeToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Employee Deleted Sucessfully");
+                    Console.WriteLine("Employee Deleted Successfully");
                 }
                 else
                 {
@@ -528,7 +528,7 @@ namespace CompanyManagementDatalayer
                     dc.TechProjectMaps.DeleteAllOnSubmit(techProjectList);
                     dc.TechnologyMasters.DeleteOnSubmit(technologyToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Technology Deleted Sucessfully"); ;
+                    Console.WriteLine("Technology Deleted Successfully"); ;
                 }
                 else { throw new Exception(QueryResource.TechnologyDoesNotExist); }
             }
@@ -556,7 +556,7 @@ namespace CompanyManagementDatalayer
                     dc.EmployeeTaskMaps.DeleteAllOnSubmit(employeeTaskList);
                     dc.Tasks.DeleteOnSubmit(taskToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Task Deleted Sucessfully"); ;
+                    Console.WriteLine("Task Deleted Successfully"); ;
                 }
                 else
                 {
@@ -584,7 +584,7 @@ namespace CompanyManagementDatalayer
                     dc.EmployeeProjects.DeleteAllOnSubmit(employeeProjectList);
                     dc.Projects.DeleteOnSubmit(projectToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Project Deleted Sucessfully");
+                    Console.WriteLine("Project Deleted Successfully");
                 }
                 else
                 {

@@ -70,6 +70,24 @@ namespace CompanyManagementDatalayer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum Number of Projects Already Assigned To Employee.
+        /// </summary>
+        public static string CannotAssignMoreProjectForManager {
+            get {
+                return ResourceManager.GetString("CannotAssignMoreProjectForManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum Number of Projects Already Assigned To Employee.
+        /// </summary>
+        public static string CannotAssignMoreProjectsForEmployee {
+            get {
+                return ResourceManager.GetString("CannotAssignMoreProjectsForEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client Id is Missing.
         /// </summary>
         public static string ClientIdMissing {

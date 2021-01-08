@@ -120,6 +120,12 @@
   <data name="AllFieldsPresent" xml:space="preserve">
     <value>All fields are present</value>
   </data>
+  <data name="CannotAssignMoreProjectForManager" xml:space="preserve">
+    <value>Maximum Number of Projects Already Assigned To Employee</value>
+  </data>
+  <data name="CannotAssignMoreProjectsForEmployee" xml:space="preserve">
+    <value>Maximum Number of Projects Already Assigned To Employee</value>
+  </data>
   <data name="ClientIdMissing" xml:space="preserve">
     <value>Client Id is Missing</value>
   </data>
