@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManagementBusinessLa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManagementConsole", "CompanyManagementConsole\CompanyManagementConsole.csproj", "{775C4886-846A-4A9B-ACF4-2F751A960FAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManagementAPI", "CompanyManagementAPI\CompanyManagementAPI.csproj", "{6660ABC8-C03A-4F4C-B265-67C669B4D9D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{775C4886-846A-4A9B-ACF4-2F751A960FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{775C4886-846A-4A9B-ACF4-2F751A960FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{775C4886-846A-4A9B-ACF4-2F751A960FAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6660ABC8-C03A-4F4C-B265-67C669B4D9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6660ABC8-C03A-4F4C-B265-67C669B4D9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6660ABC8-C03A-4F4C-B265-67C669B4D9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6660ABC8-C03A-4F4C-B265-67C669B4D9D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

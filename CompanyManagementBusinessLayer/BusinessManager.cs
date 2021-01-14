@@ -369,7 +369,7 @@ namespace CompanyManagementBusinessLayer
                 throw ex;
             }
         }
-       public void AssignEmployeeToProject(int employeeID, int projectID, )
+       public void AssignEmployeeToProject(int employeeID, int projectID)
         {
             try
             {
@@ -405,7 +405,7 @@ namespace CompanyManagementBusinessLayer
             {
                 throw ex;
             }
-        }*/
+        }
         public void UpdateTechnologiesForTask(List<int> technologyIDs, int taskID)
         {
             try

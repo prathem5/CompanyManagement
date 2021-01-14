@@ -18,7 +18,7 @@ namespace CompanyManagementDatalayer
                 CompanyDBDataContext dc = new CompanyDBDataContext();
                 List<Project> projectList = (from project in dc.Projects
                                              select project).ToList();
-                return projectList;
+                return dc.Projects.ToList();
                 //Is This also Correct ...return dc.projects.tolist();
             }
             catch (Exception ex)
