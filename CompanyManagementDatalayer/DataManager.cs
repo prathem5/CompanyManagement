@@ -93,6 +93,8 @@ namespace CompanyManagementDatalayer
                 taskList.Add(task);
 
             }
+            dr.Close();
+            conn.Close();
             return taskList;
         }
         public List<Project> GetAllProjects()
