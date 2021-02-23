@@ -7,3 +7,5 @@ C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\ob
 C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.csproj.CoreCompileInputs.cache
 C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.dll
 C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementDatalayer\obj\Debug\CompanyManagementDatalayer.csproj.CopyComplete

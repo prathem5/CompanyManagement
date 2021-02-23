@@ -5,12 +5,96 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Data;
+using System.Data.SqlClient;
+
 
 namespace CompanyManagementDatalayer
 {
     public class DataManager
     {
+        static string connectionString = @"Data Source=LAPTOP-LT1J0C29\SQLEXPRESS;Initial Catalog=CompanyDB;Integrated Security=True";
+       
 
+        public void GetAllProjectList()
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+            string query = "select * from Project";
+            SqlDataReader dataReader;
+            SqlCommand cmd = new SqlCommand(query,conn);
+            dataReader = cmd.ExecuteReader();
+            Console.WriteLine(dataReader);
+        }
+        public List<Employee> GetAllEmployeeForProjects(int projectID)
+        {
+            List<Employee> employeeList = new List<Employee>();
+            SqlConnection conn = new SqlConnection(connectionString);
+            string query ="select   emp.* from Employee emp inner join EmployeeProject empProject on emp.EmployeeID = empProject.EmployeeID where empProject.ProjectID = " + projectID;
+            conn.Open();
+            var command = new SqlCommand(query, conn);
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                Employee emp = new Employee();
+                emp.EmployeeID = Convert.ToInt32( dr["EmployeeID"]);
+                emp.EmployeeName = dr["EmployeeName"].ToString();
+                emp.EmployeeAddress = dr["EmployeeAddress"].ToString();
+                emp.EmployeeSalary = Convert.ToInt32(dr["EmployeeSalary"]);
+                emp.DepartmentID = Convert.ToInt32(dr["DepartmentID"]);
+                employeeList.Add(emp);
+
+            }
+            dr.Close();
+            conn.Close();
+            return employeeList;
+        }
+        public List<Project> GetAllProjectSForEmployee(int employeeID)
+        {
+            List<Project> projectList = new List<Project>();
+            SqlConnection conn = new SqlConnection(connectionString);
+            string query = "select p.* from Project p inner join EmployeeProject ep on p.ProjectID = ep.ProjectID where ep.EmployeeID = " + employeeID;
+            conn.Open();
+            var command = new SqlCommand(query, conn);
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                Project project = new Project()
+                {
+                    ProjectID = Convert.ToInt32(dr["ProjectID"]),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    ProjectBudget = Convert.ToInt32(dr["ProjectBudget"]),
+                    ClientID = Convert.ToInt32(dr["ClientID"]),
+                    StatusID = Convert.ToInt32(dr["StatusID"])
+
+                };
+                projectList.Add(project);
+            }
+            dr.Close();
+            conn.Close();
+            return projectList;
+        }
+        public List<Task> GetAllTasksForEmployee(int employeeID)
+        {
+            List<Task> taskList = new List<Task>();
+            SqlConnection conn = new SqlConnection(connectionString);
+            string query = " select t.*from Task t inner join EmployeeTaskMap et on t.TaskID = et.TaskID  where et.EmployeeID =  " + employeeID;
+            conn.Open();
+            var command = new SqlCommand(query, conn);
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                Task task = new Task()
+                {
+                    TaskID = Convert.ToInt32(dr["TaskID"]),
+                    TaskName = dr["TaskName"].ToString(),
+                    StatusID = Convert.ToInt32(dr["StatusID"])
+                };
+                taskList.Add(task);
+
+            }
+            return taskList;
+        }
         public List<Project> GetAllProjects()
         {
             try
@@ -18,7 +102,7 @@ namespace CompanyManagementDatalayer
                 CompanyDBDataContext dc = new CompanyDBDataContext();
                 List<Project> projectList = (from project in dc.Projects
                                              select project).ToList();
-                return dc.Projects.ToList();
+                return projectList;
                 //Is This also Correct ...return dc.projects.tolist();
             }
             catch (Exception ex)
@@ -459,6 +543,7 @@ namespace CompanyManagementDatalayer
                         if (techPresent)
                         {
                             TechTaskMap techTask = new TechTaskMap();
+                           
                             techTask.TaskID = taskID;
                             techTask.TechID = techID;
                             dc.TechTaskMaps.InsertOnSubmit(techTask);

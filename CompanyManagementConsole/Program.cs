@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CompanyManagementBusinessLayer;
+using Newtonsoft.Json;
 
 namespace CompanyManagementConsole
 {
@@ -125,7 +126,11 @@ namespace CompanyManagementConsole
            ts.StatusID = 2;
            dataManager.AddTask(ts);
            businessManager.BMCreateTaskInProject(ts, 1);*/
-            businessManager.DeleteTechnology(3);
+           
+        
+            var project = businessManager.GetAllProjects();
+            var obj = JsonConvert.SerializeObject(project);
+            Console.WriteLine(obj);
             Console.ReadKey();
         }
     }

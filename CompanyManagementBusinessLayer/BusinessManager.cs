@@ -362,6 +362,7 @@ namespace CompanyManagementBusinessLayer
             try
             {
                 DataManager dataManager = new DataManager();
+       
                 dataManager.AddEmployee(employee);
             }
             catch (Exception ex)
@@ -411,6 +412,7 @@ namespace CompanyManagementBusinessLayer
             try
             {
                 DataManager dataManager = new DataManager();
+                
                 dataManager.UpdateTechnologiesForTask(technologyIDs, taskID);
 
             }

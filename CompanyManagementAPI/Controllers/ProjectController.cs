@@ -20,13 +20,13 @@ namespace CompanyManagementAPI.Controllers
 
         private BusinessManager businessManager = new BusinessManager();
         [HttpGet]
-        [Route("api/project/all")]
+      
 
-        public List<BOProject> GetAllProjects()
+        public List<BOProject> GetProjects()
         {
             try
             {
-               List<BOProject> projectList = businessManager.GetAllProjects();
+               List<BOProject> projectList = businessManager.GetAllProjects().ToList();
                 
                 return projectList;
             }
@@ -39,8 +39,8 @@ namespace CompanyManagementAPI.Controllers
 
         }
         [HttpPost]
-        [Route("api/project/addProject")]
-        public HttpResponseMessage AddProject(Project project)
+       
+        public HttpResponseMessage PostProject(Project project)
         {
             HttpResponseMessage response;
             try
@@ -73,7 +73,7 @@ namespace CompanyManagementAPI.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-            return response;
+            
             return response;
 
         }
