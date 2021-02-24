@@ -5,12 +5,98 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Data;
+using System.Data.SqlClient;
+
 
 namespace CompanyManagementDatalayer
 {
     public class DataManager
     {
+        static string connectionString = @"Data Source=LAPTOP-LT1J0C29\SQLEXPRESS;Initial Catalog=CompanyDB;Integrated Security=True";
+       
 
+        public void GetAllProjectList()
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+            string query = "select * from Project";
+            SqlDataReader dataReader;
+            SqlCommand cmd = new SqlCommand(query,conn);
+            dataReader = cmd.ExecuteReader();
+            Console.WriteLine(dataReader);
+        }
+        public List<Employee> GetAllEmployeeForProjects(int projectID)
+        {
+            List<Employee> employeeList = new List<Employee>();
+            SqlConnection conn = new SqlConnection(connectionString);
+            string query ="select   emp.* from Employee emp inner join EmployeeProject empProject on emp.EmployeeID = empProject.EmployeeID where empProject.ProjectID = " + projectID;
+            conn.Open();
+            var command = new SqlCommand(query, conn);
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                Employee emp = new Employee();
+                emp.EmployeeID = Convert.ToInt32( dr["EmployeeID"]);
+                emp.EmployeeName = dr["EmployeeName"].ToString();
+                emp.EmployeeAddress = dr["EmployeeAddress"].ToString();
+                emp.EmployeeSalary = Convert.ToInt32(dr["EmployeeSalary"]);
+                emp.DepartmentID = Convert.ToInt32(dr["DepartmentID"]);
+                employeeList.Add(emp);
+
+            }
+            dr.Close();
+            conn.Close();
+            return employeeList;
+        }
+        public List<Project> GetAllProjectSForEmployee(int employeeID)
+        {
+            List<Project> projectList = new List<Project>();
+            SqlConnection conn = new SqlConnection(connectionString);
+            string query = "select p.* from Project p inner join EmployeeProject ep on p.ProjectID = ep.ProjectID where ep.EmployeeID = " + employeeID;
+            conn.Open();
+            var command = new SqlCommand(query, conn);
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                Project project = new Project()
+                {
+                    ProjectID = Convert.ToInt32(dr["ProjectID"]),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    ProjectBudget = Convert.ToInt32(dr["ProjectBudget"]),
+                    ClientID = Convert.ToInt32(dr["ClientID"]),
+                    StatusID = Convert.ToInt32(dr["StatusID"])
+
+                };
+                projectList.Add(project);
+            }
+            dr.Close();
+            conn.Close();
+            return projectList;
+        }
+        public List<Task> GetAllTasksForEmployee(int employeeID)
+        {
+            List<Task> taskList = new List<Task>();
+            SqlConnection conn = new SqlConnection(connectionString);
+            string query = " select t.*from Task t inner join EmployeeTaskMap et on t.TaskID = et.TaskID  where et.EmployeeID =  " + employeeID;
+            conn.Open();
+            var command = new SqlCommand(query, conn);
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                Task task = new Task()
+                {
+                    TaskID = Convert.ToInt32(dr["TaskID"]),
+                    TaskName = dr["TaskName"].ToString(),
+                    StatusID = Convert.ToInt32(dr["StatusID"])
+                };
+                taskList.Add(task);
+
+            }
+            dr.Close();
+            conn.Close();
+            return taskList;
+        }
         public List<Project> GetAllProjects()
         {
             try
@@ -55,7 +141,7 @@ namespace CompanyManagementDatalayer
                 else
                 {
 
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -80,7 +166,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -180,12 +266,12 @@ namespace CompanyManagementDatalayer
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
+                        throw new Exception(QueryResource.TechnologyDoesNotExist);
                     }
                 }
                 else
                 {
-                    throw new Exception(QueryResource.EmployeeNotFound + QueryResource.TechnologyNotexist);
+                    throw new Exception(QueryResource.EmployeeNotFound + QueryResource.TechnologyDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -207,7 +293,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TechnologyNotexist);
+                    throw new Exception(QueryResource.TechnologyDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -230,7 +316,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
 
             }
@@ -355,7 +441,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -383,15 +469,15 @@ namespace CompanyManagementDatalayer
                 {
                     if (taskPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
+                        throw new Exception(QueryResource.TechnologyDoesNotExist);
                     }
                     else if (projectPresent)
                     {
-                        throw new Exception(QueryResource.TaskNotExist);
+                        throw new Exception(QueryResource.TaskDoesNotExist);
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                        throw new Exception(QueryResource.TechAndTaskDoesNotExist);
                     }
                 }
             }
@@ -410,27 +496,27 @@ namespace CompanyManagementDatalayer
                 {
 
                     TechTaskMap tech = new TechTaskMap();
-                        tech.TaskID = taskID;
-                        tech.TechID = technologyID;
-                        dc.TechTaskMaps.InsertOnSubmit(tech);
-                        dc.SubmitChanges();
-                    
-                    
-                    
+                    tech.TaskID = taskID;
+                    tech.TechID = technologyID;
+                    dc.TechTaskMaps.InsertOnSubmit(tech);
+                    dc.SubmitChanges();
+
+
+
                 }
                 else if (!taskPresent || !techPresent)
                 {
                     if (taskPresent)
                     {
-                        throw new Exception(QueryResource.TechnologyNotexist);
+                        throw new Exception(QueryResource.TechnologyDoesNotExist);
                     }
                     else if (techPresent)
                     {
-                        throw new Exception(QueryResource.TaskNotExist);
+                        throw new Exception(QueryResource.TaskDoesNotExist);
                     }
                     else
                     {
-                        throw new Exception(QueryResource.TechAndTaskNotExit);
+                        throw new Exception(QueryResource.TechAndTaskDoesNotExist);
                     }
                 }
 
@@ -459,6 +545,7 @@ namespace CompanyManagementDatalayer
                         if (techPresent)
                         {
                             TechTaskMap techTask = new TechTaskMap();
+                           
                             techTask.TaskID = taskID;
                             techTask.TechID = techID;
                             dc.TechTaskMaps.InsertOnSubmit(techTask);
@@ -468,14 +555,14 @@ namespace CompanyManagementDatalayer
                         }
                         else
                         {
-                            throw new Exception(QueryResource.TechnologyNotexist);
+                            throw new Exception(QueryResource.TechnologyDoesNotExist);
                         }
                     }
                     dc.SubmitChanges();
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TaskNotExist);
+                    throw new Exception(QueryResource.TaskDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -499,7 +586,7 @@ namespace CompanyManagementDatalayer
                     dc.EmployeeProjects.DeleteAllOnSubmit(employeeProjectList);
                     dc.Employees.DeleteOnSubmit(employeeToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Employee Deleted Sucessfully");
+                    Console.WriteLine("Employee Deleted Successfully");
                 }
                 else
                 {
@@ -528,9 +615,9 @@ namespace CompanyManagementDatalayer
                     dc.TechProjectMaps.DeleteAllOnSubmit(techProjectList);
                     dc.TechnologyMasters.DeleteOnSubmit(technologyToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Technology Deleted Sucessfully"); ;
+                    Console.WriteLine("Technology Deleted Successfully"); ;
                 }
-                else { throw new Exception(QueryResource.TechnologyNotexist); }
+                else { throw new Exception(QueryResource.TechnologyDoesNotExist); }
             }
             catch (Exception ex)
             {
@@ -556,11 +643,11 @@ namespace CompanyManagementDatalayer
                     dc.EmployeeTaskMaps.DeleteAllOnSubmit(employeeTaskList);
                     dc.Tasks.DeleteOnSubmit(taskToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Task Deleted Sucessfully"); ;
+                    Console.WriteLine("Task Deleted Successfully"); ;
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TaskNotExist);
+                    throw new Exception(QueryResource.TaskDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -584,11 +671,11 @@ namespace CompanyManagementDatalayer
                     dc.EmployeeProjects.DeleteAllOnSubmit(employeeProjectList);
                     dc.Projects.DeleteOnSubmit(projectToDelete);
                     dc.SubmitChanges();
-                    Console.WriteLine("Project Deleted Sucessfully");
+                    Console.WriteLine("Project Deleted Successfully");
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
             }
             catch (Exception ex)
@@ -784,21 +871,21 @@ namespace CompanyManagementDatalayer
             dc.SubmitChanges();
         }
 
-        public int GetAllProjectOfTechnology(int technologyID)
+        public int GetProjectCountOfTechnology(int technologyID)
         {
             try
             {
                 if (ValidationHelper.IfTechnologyExist(technologyID))
                 {
                     CompanyDBDataContext dc = new CompanyDBDataContext();
-                    List<int> projectList = (from techProject in dc.TechProjectMaps
-                                             where techProject.TechID == technologyID
-                                             select techProject.ProjectID).ToList();
-                    return projectList.Count;
+                    int projectList = (from techProject in dc.TechProjectMaps
+                                       where techProject.TechID == technologyID
+                                       select techProject.Project).ToList().Count;
+                    return projectList;
                 }
                 else
                 {
-                    throw new Exception(QueryResource.TechnologyNotexist);
+                    throw new Exception(QueryResource.TechnologyDoesNotExist);
                 }
             }
             catch (Exception ex)
@@ -819,7 +906,7 @@ namespace CompanyManagementDatalayer
                 }
                 else
                 {
-                    throw new Exception(QueryResource.ProjectIDNotFound);
+                    throw new Exception(QueryResource.ProjectNotFound);
                 }
 
             }
@@ -829,7 +916,7 @@ namespace CompanyManagementDatalayer
             }
 
         }
-        public int GetAllTechnologyForTask(int taskID)
+        public int GetTechnologyCountForTask(int taskID)
         {
             CompanyDBDataContext dc = new CompanyDBDataContext();
             List<int> techTask = (from task in dc.TechTaskMaps where task.TaskID == taskID select task.TechID).ToList();
@@ -856,38 +943,81 @@ namespace CompanyManagementDatalayer
             try
             {
                 dc.SubmitChanges();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public void DeleteEmployee(int empID)
+        /* public void DeleteEmployee(int empID)
+         {
+            try {
+                 if (ValidationHelper.IfEmployeeExist(empID))
+                 {
+                     CompanyDBDataContext dc = new CompanyDBDataContext();
+
+                     var deleteEmployee = (from emp in dc.Employees
+                                           join empProject in dc.EmployeeProjects
+                                           on emp.EmployeeID equals empProject.EmployeeID
+                                           join empTask in dc.EmployeeTaskMaps
+                                           on emp.EmployeeID equals empTask.EmployeeID
+                                           where emp.EmployeeID == empID
+                                           select emp).ToList();
+                     foreach (var employee in deleteEmployee)
+                     {
+                         dc.Employees.DeleteOnSubmit(employee);
+                     }
+                 }
+             }catch(Exception ex)
+             {
+                 throw ex;
+             }
+
+         }*/
+
+        public List<Project> GEtProjectListOfTask(int taskID)
         {
-           try {
-                if (ValidationHelper.IfEmployeeExist(empID))
-                {
-                    CompanyDBDataContext dc = new CompanyDBDataContext();
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            var projectList = (from project in dc.ProjectTaskMaps where project.TaskID == taskID select project.Project).ToList();
+            return projectList;
+        }
 
-                    var deleteEmployee = (from emp in dc.Employees
-                                          join empProject in dc.EmployeeProjects
-                                          on emp.EmployeeID equals empProject.EmployeeID
-                                          join empTask in dc.EmployeeTaskMaps
-                                          on emp.EmployeeID equals empTask.EmployeeID
-                                          where emp.EmployeeID == empID
-                                          select emp).ToList();
-                    foreach (var employee in deleteEmployee)
-                    {
-                        dc.Employees.DeleteOnSubmit(employee);
-                    }
-                }
-            }catch(Exception ex)
+        public int GetProjectStatus(int projectID)
+        {
+            try
             {
-                throw ex;
+                CompanyDBDataContext dc = new CompanyDBDataContext();
+                int projectStatus = (from project in dc.Projects where project.ProjectID == projectID select project.StatusID).First();
+                return projectStatus;
             }
+            catch (Exception ex) { throw ex; }
+        }
+        public DepartmentMaster GetDepartment(int departmentID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            DepartmentMaster departmentObj = (from dept in dc.DepartmentMasters where dept.DepartmentID == departmentID select dept).First();
+            return departmentObj;
 
+        }
+        public StatusMaster GetStatus(int statusID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            StatusMaster statusObj = (from status in dc.StatusMasters where status.StatusID == statusID select status).First();
+            return statusObj;
 
+        }
+        public Company GetCompany(int companyID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            Company companyObj = (from company in dc.Companies where company.CompanyID == companyID select company).First();
+            return companyObj;
 
-
+        }
+        public Client GetClient(int clientID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            Client clientObj = (from client in dc.Clients where client.ClientID == clientID select client).First();
+            return clientObj ;
 
         }
     }

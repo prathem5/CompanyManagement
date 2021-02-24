@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BOStatusMaster
+   public class BOStatusMaster
     {
         public int StatusId;
         public string StatusName;

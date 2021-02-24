@@ -7,12 +7,12 @@ using CompanyManagementDatalayer;
 
 namespace CompanyManagementBusinessLayer.Entities
 {
-    class BOClient
+     public class BOClient
     {        
         public int ClientID;
         public string ClientName;
         public string ClientAddress;
-        public int CompanyID;
+        public Company Company;
         
     }
     

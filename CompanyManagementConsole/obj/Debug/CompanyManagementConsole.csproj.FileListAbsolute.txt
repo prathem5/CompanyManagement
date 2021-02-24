@@ -9,3 +9,6 @@ C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\
 C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.csproj.CopyComplete
 C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.exe
 C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\obj\Debug\CompanyManagementConsole.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementBusinessLayer.dll
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\CompanyManagementBusinessLayer.pdb
+C:\Users\prath\Documents\Cennest\CompanyManagement\CompanyManagementConsole\bin\Debug\Newtonsoft.Json.dll

@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessClass.cs" />
+    <Compile Include="BusinessManager.cs" />
+    <Compile Include="DataConverter.cs" />
     <Compile Include="Entities\BOClient.cs" />
     <Compile Include="Entities\BOCompany.cs" />
     <Compile Include="Entities\BODepartmentMaster.cs" />
@@ -51,10 +52,10 @@
     <Compile Include="Entities\BOProject.cs" />
     <Compile Include="Entities\BOProjectTaskMap.cs" />
     <Compile Include="Entities\BOStatusMaster.cs" />
-    <Compile Include="Entities\BoTask.cs" />
+    <Compile Include="Entities\BOTask.cs" />
     <Compile Include="Entities\BOTechnologyMaster.cs" />
     <Compile Include="Entities\BOTechProjectMap.cs" />
-    <Compile Include="Entities\BoTechTaskMap.cs" />
+    <Compile Include="Entities\BOTechTaskMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

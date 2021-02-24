@@ -131,10 +131,7 @@ namespace CompanyManagementDatalayer
             {
                 return QueryResource.TaskNameMissing;
             }
-            else if (task.TaskID == 0 )
-            {
-                return QueryResource.TaskIdMissing;
-            }
+           
             else if (task.StatusID == 0)
             {
                 return QueryResource.StatusIdMissing;
@@ -264,11 +261,8 @@ namespace CompanyManagementDatalayer
         }
         public static string CheckCompulsoryTechtaskColumn(TechTaskMap techTask)
         {
-            if (techTask.TechTaskMapID == 0)
-            {
-                return QueryResource.TechTaskMapIDMissing;
-            }
-            else if (techTask.TaskID == 0)
+          
+             if (techTask.TaskID == 0)
             {
                 return QueryResource.TaskIdMissing;
             }
@@ -326,6 +320,37 @@ namespace CompanyManagementDatalayer
             bool worker = (from emp in dc.EmployeeProjects where emp.EmployeeID == employeeID && emp.RoleID == (int)RoleEnum.Worker select emp).Any();
            
             return worker;
+        }
+        public static bool IsTechPresentInTask(int techID,int taskID)
+        {
+            CompanyDBDataContext dc = new CompanyDBDataContext();
+            bool techPresent = (from techTask in dc.TechTaskMaps where techTask.TechID == techID && techTask.TaskID == taskID select techTask).Any();
+            return techPresent;
+        }
+        public static bool DoesProjectHasTech(int projectID, int techID)
+        {
+
+            try
+            {
+                bool projectExist = ValidationHelper.IfProjectExist(projectID);
+                bool techExist = ValidationHelper.IfTechnologyExist(techID);
+                if (projectExist && techExist)
+                {
+                    CompanyDBDataContext dc = new CompanyDBDataContext();
+
+                    bool validateTechproject = (from techProject in dc.TechProjectMaps where techProject.ProjectID == projectID && techProject.TechID == techID select techProject).Any();
+
+                    return validateTechproject;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
+            catch (Exception ex) { throw ex; }
+
         }
     }
 }
